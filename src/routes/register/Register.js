@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-import { login } from '../../actions/auth';
+import { signup } from '../../actions/auth';
 
 /* todo sækja actions frá ./actions */
 
-import './Login.css';
+import './Register.css';
 
-class Login extends Component {
+class Register extends Component {
 
   state = { redirect: false };
 
@@ -23,23 +23,34 @@ class Login extends Component {
     this.passwordInput = element;
   }
 
+  nameInput = null;
+  setNameInput = element => {
+    this.nameInput = element;
+  }
+
   submit = (e) => {
     e.preventDefault();
     const username = this.usernameInput.value;
     const password = this.passwordInput.value;
+    const name = this.nameInput.value;
     const { dispatch } = this.props;
-    dispatch(login(username, password));
+    dispatch(signup(name, username, password));
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { isFetching, result, type } = this.props;
-
-    if (!isFetching) {
+    const { redirect } = this.state;
+    
+    if (!isFetching && !redirect) {
       if (result.status === 401) {
-        console.log('Wrong login info');
-      } else {
-        const { token } = result.result;
-        window.localStorage.setItem('token', token);
+        console.log('Wrong info');
+      } 
+      if(result.status === 400){
+        console.log(result.result.error);
+      }
+        else {
+        console.log('Tókst ad skra notanda');
+        
         this.setState({ redirect: true });
       }
     }
@@ -47,18 +58,28 @@ class Login extends Component {
 
   render() {
     const { redirect } = this.state;
+
     if (redirect) {
-      return <Redirect to='/'/>
-    }
+      return (
+        <div>
+          <p>Innskráning tókst</p>
+          <p><Link to="/login">Innskráning</Link></p>
+        </div>
+    );
+  }  
+
     return (
       <div>
-        <p>Innskráning</p>
+        <p>Nýskráning</p>
         <form>
+          <p>Username:</p>
           <input type="text" name="username" ref={this.setUsernameInput}/>
+          <p>Password:</p>
           <input type="password" name="password" ref={this.setPasswordInput}/>
+          <p>Name:</p>
+          <input type="text"name="name" ref={this.setNameInput}/>
           <button onClick={this.submit}>Submit</button>
         </form>
-        <p><Link to="/register">Nýskrá</Link></p>
       </div>
     );
   }
@@ -77,4 +98,4 @@ const mapStateToProps = (state) => {
   /* todo stilla redux ef það er notað */
 }
 
-export default withRouter(connect(mapStateToProps)(Login));
+export default withRouter(connect(mapStateToProps)(Register));
