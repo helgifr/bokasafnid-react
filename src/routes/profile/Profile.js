@@ -3,10 +3,16 @@ import React, { Component } from 'react';
 export default class Profile extends Component {
 
   render() {
+    const { authenticated } = this.props;
+    if (authenticated) {
+      return (
+        <div>
+          <p>Notendasíða</p>
+        </div>
+      );
+    }
     return (
-      <div>
-        <p>Notendasíða</p>
-      </div>
+      <p>no no no</p>
     );
   }
 }

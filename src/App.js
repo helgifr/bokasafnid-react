@@ -6,18 +6,32 @@ import { Route, NavLink, Link, Switch, withRouter } from 'react-router-dom'
 import UserRoute from './components/user-route';
 import Header from './components/header';
 
+import { login } from './actions/auth';
+
 import Home from './routes/home';
 import Login from './routes/login';
 import Profile from './routes/profile';
 import NotFound from './routes/not-found';
+import Books from './routes/books';
 /* todo fleiri routes */
 
 import './App.css';
 
 class App extends Component {
 
+  /*
+  componentDidMount() {
+    const { dispatch } = this.props;
+  }*/
+
   render() {
-    const authenticated = false; /* vita hvort notandi sé innskráður */
+    const { isFetching, token, error } = this.props;
+    const authenticated = false; // Vinna með
+
+    const t = window.localStorage.token;
+    if (t) {
+
+    }
 
     return (
       <main className="main">
@@ -29,6 +43,7 @@ class App extends Component {
           <Switch location={this.props.location}>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={Login} />
+            <Route path="/books" exact component={Books} />
             <UserRoute path="/profile" authenticated={authenticated} component={Profile} />
             {/* todo fleiri route */}
             <Route component={NotFound} />
@@ -41,6 +56,12 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  return {
+    type: state.auth.type,
+    isFetching: state.auth.isFetching,
+    token: state.auth.token,
+    error: state.auth.error,
+  }
   /* todo stilla redux ef það er notað */
 }
 

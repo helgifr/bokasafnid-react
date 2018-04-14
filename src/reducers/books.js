@@ -1,13 +1,13 @@
 import {
-  LOGIN_REQUEST,
-  LOGIN_ERROR,
-  LOGIN_SUCCESS,
+  BOOKS_REQUEST,
+  BOOKS_ERROR,
+  BOOKS_SUCCESS,
   /* todo fleiri actions */
 } from '../actions/auth';
 
 const initialState = {
   isFetching: false,
-  token: null,
+  books: null,
   error: null,
   errors: [],
 };
@@ -24,7 +24,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isFetching: action.isFetching,
-        result: action.result,
+        books: action.books,
         error: action.error,
       };
 
@@ -32,7 +32,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isFetching: action.isFetching,
-        result: action.result,
+        books: action.books,
         error: action.error,
       };
 
