@@ -59,6 +59,51 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 
+export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+
+function requestSignup() {
+  return {
+    type: SIGNUP_REQUEST,
+    isFetching: true,
+    message: null,
+  }
+}
+
+function signupError(error) {
+  return {
+    type: SIGNUP_ERROR,
+    isFetching: false,
+    result: 'villa kall',
+    error: error,
+  }
+}
+
+function receiveResult(result) {
+  return {
+    type: SIGNUP_SUCCESS,
+    isFetching: false,
+    result,
+    message: 'success',
+  }
+}
+
+export const signup = (name, username, password) => {
+  return async (dispatch) => {
+    dispatch(requestSignup());
+    let result;
+    const data = { name, username, password };
+    try {
+      result = await api.post('/register', data);
+    } catch (e) {
+      return dispatch(signupError(e));
+    }
+
+    dispatch(receiveResult(result));
+  }
+}
+
 function requestAuth() {
   return {
     type: AUTH_REQUEST,
