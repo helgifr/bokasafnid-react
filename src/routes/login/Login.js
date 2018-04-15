@@ -13,21 +13,16 @@ class Login extends Component {
 
   state = { redirect: false };
 
-  usernameInput = null;
-  setUsernameInput = element => {
-    this.usernameInput = element;
-  }
+  usernameInput = React.createRef();
 
-  passwordInput = null;
-  setPasswordInput = element => {
-    this.passwordInput = element;
-  }
+  passwordInput = React.createRef();
 
   submit = (e) => {
     e.preventDefault();
-    const username = this.usernameInput.value;
-    const password = this.passwordInput.value;
+    const username = this.usernameInput.current.value;
+    const password = this.passwordInput.current.value;
     const { dispatch } = this.props;
+    console.log(username, password);
 
     dispatch(login(username, password));
   }
@@ -42,7 +37,6 @@ class Login extends Component {
         const { token } = result.result;
         window.localStorage.setItem('token', token);
         this.setState({ redirect: true });
-        
       }
     }
   }
@@ -55,10 +49,10 @@ class Login extends Component {
     return (
       <div>
         <p>Innskráning</p>
-        <form>
-          <input type="text" name="username" ref={this.setUsernameInput}/>
-          <input type="password" name="password" ref={this.setPasswordInput}/>
-          <button onClick={this.submit}>Submit</button>
+        <form onSubmit={this.submit}>
+          <input type="text" name="username" ref={this.usernameInput} />
+          <input type="password" name="password" ref={this.passwordInput}/>
+          <button>Submit</button>
         </form>
         <p><Link to="/register">Nýskrá</Link></p>
       </div>
