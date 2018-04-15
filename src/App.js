@@ -6,7 +6,7 @@ import { Route, NavLink, Link, Switch, withRouter } from 'react-router-dom'
 import UserRoute from './components/user-route';
 import Header from './components/header';
 
-import { login } from './actions/auth';
+import { checkAuth } from './actions/auth';
 
 import Home from './routes/home';
 import Login from './routes/login';
@@ -19,18 +19,36 @@ import './App.css';
 
 class App extends Component {
 
-  /*
+  state = {
+    loading: true,
+    authenticated: null,
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
-  }*/
+
+    dispatch(checkAuth());
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { isFetching, result } = this.props;
+    const { authenticated } = this.state;
+
+    if (!isFetching && authenticated === null) {
+      if (result.status === 401) {
+        this.setState({ authenticated: false, loading: false });
+      } else {
+        this.setState({ authenticated: true, loading: false });
+      }
+    }
+  }
 
   render() {
     const { isFetching, token, error } = this.props;
-    const authenticated = false; // Vinna með
+    const { loading, authenticated } = this.state;
 
-    const t = window.localStorage.token;
-    if (t) {
-
+    if (loading) {
+      return (<p>Sæki gögn...</p>);
     }
 
     return (
@@ -59,10 +77,9 @@ const mapStateToProps = (state) => {
   return {
     type: state.auth.type,
     isFetching: state.auth.isFetching,
-    token: state.auth.token,
+    result: state.auth.result,
     error: state.auth.error,
   }
-  /* todo stilla redux ef það er notað */
 }
 
 export default withRouter(connect(mapStateToProps)(App));

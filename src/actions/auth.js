@@ -4,54 +4,8 @@
  * síðan í annari skrá fyrir aðra virkni.
  * Í async "thunks" ætti þá að gera vefþjónustuköll
  */
+
 import api from '../api';
-
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-
-function requestLogin() {
-  return {
-    type: LOGIN_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
-    message: null,
-  }
-}
-
-function loginError(error) {
-  return {
-    type: LOGIN_ERROR,
-    isFetching: false,
-    result: null,
-    error: error,
-  }
-}
-
-function receiveToken(result) {
-  return {
-    type: LOGIN_SUCCESS,
-    isFetching: false,
-    result,
-    message: 'success',
-  }
-}
-
-export const login = (username, password) => {
-  return async (dispatch) => {
-    dispatch(requestLogin());
-
-    let token;
-    const data = { username, password };
-    try {
-      token = await api.post('/login', data);
-    } catch (e) {
-      return dispatch(loginError(e));
-    }
-
-    dispatch(receiveToken(token));
-  }
-}
 
 export const BOOKS_REQUEST = 'BOOKS_REQUEST';
 export const BOOKS_ERROR = 'BOOKS_ERROR';
@@ -98,6 +52,52 @@ export const fetchBooks = () => {
     }
 
     dispatch(receiveBooks(result.result));
+  }
+}
+
+export const AUTH_REQUEST = 'AUTH_REQUEST';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const AUTH_SUCCESS = 'AUTH_SUCCESS';
+
+function requestAuth() {
+  return {
+    type: AUTH_REQUEST,
+    isFetching: true,
+    isAuthenticated: false,
+    message: null,
+  }
+}
+
+function authError(error) {
+  return {
+    type: AUTH_ERROR,
+    isFetching: false,
+    result: null,
+    error: error,
+  }
+}
+
+function receiveAuth(result) {
+  return {
+    type: AUTH_SUCCESS,
+    isFetching: false,
+    result,
+    message: 'success',
+  }
+}
+
+export const checkAuth = () => {
+  return async (dispatch) => {
+    dispatch(requestAuth());
+
+    let result;
+    try {
+      result = await api.get('/users');
+    } catch (e) {
+      return dispatch(authError(e));
+    }
+
+    dispatch(receiveAuth(result));
   }
 }
 /* todo fleiri action */

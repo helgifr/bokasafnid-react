@@ -1,9 +1,9 @@
 import {
-  AUTH_REQUEST,
-  AUTH_ERROR,
-  AUTH_SUCCESS,
+  LOGIN_REQUEST,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
   /* todo fleiri actions */
-} from '../actions/auth';
+} from '../actions/login';
 
 const initialState = {
   isFetching: false,
@@ -14,13 +14,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_REQUEST:
+    case LOGIN_REQUEST:
       return {
         ...state,
         isFetching: action.isFetching,
       };
 
-    case AUTH_ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         isFetching: action.isFetching,
@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
         error: action.error,
       };
 
-    case AUTH_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: action.isFetching,

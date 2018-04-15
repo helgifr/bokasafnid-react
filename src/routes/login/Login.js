@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 
-import { login } from '../../actions/auth';
+import { login } from '../../actions/login';
 
 /* todo sækja actions frá ./actions */
 
@@ -27,6 +27,7 @@ class Login extends Component {
     const username = this.usernameInput.value;
     const password = this.passwordInput.value;
     const { dispatch } = this.props;
+
     dispatch(login(username, password));
   }
 
@@ -40,6 +41,7 @@ class Login extends Component {
         const { token } = result.result;
         window.localStorage.setItem('token', token);
         this.setState({ redirect: true });
+        
       }
     }
   }
@@ -62,17 +64,14 @@ class Login extends Component {
   }
 }
 
-/* todo tengja við redux */
-
 const mapStateToProps = (state) => {
   return {
-    type: state.auth.type,
-    isFetching: state.auth.isFetching,
-    result: state.auth.result,
-    error: state.auth.error,
-    success: state.auth.success,
+    type: state.login.type,
+    isFetching: state.login.isFetching,
+    result: state.login.result,
+    error: state.login.error,
+    success: state.login.success,
   }
-  /* todo stilla redux ef það er notað */
 }
 
 export default withRouter(connect(mapStateToProps)(Login));
