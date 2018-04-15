@@ -40,7 +40,7 @@ class Register extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { isFetching, result, type } = this.props;
     const { redirect } = this.state;
-    
+
     if (!isFetching && !redirect) {
       if (result.status === 401) {
         console.log('Wrong info');
@@ -89,11 +89,11 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    type: state.auth.type,
-    isFetching: state.auth.isFetching,
-    result: state.auth.result,
-    error: state.auth.error,
-    success: state.auth.success,
+    type: state.register.type,
+    isFetching: state.register.isFetching,
+    result: state.register.result,
+    error: state.register.error,
+    success: state.register.success,
   }
   /* todo stilla redux ef það er notað */
 }
