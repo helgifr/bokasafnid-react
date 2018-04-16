@@ -3,25 +3,56 @@ import { connect } from 'react-redux';
 
 import { Link } from 'react-router-dom';
 
+import Search from '../search';
 import Button from '../button';
 
 import './Header.css';
+import { logoutUser } from '../../actions/auth';
 
 class Header extends Component {
 
-  onClick = (e) => {
-    console.log('leita');
+  signOut = (e) => {
+    const { dispatch } = this.props;
+    dispatch(logoutUser());
   }
 
+  signedIn(user) {
+    const { name, image } = this.props.user;
+    let src;
+    if (image) {
+      src = image;
+    } else {
+      src = "/profile.jpg";
+    }
+    return (
+      <div className="user">
+        <img src={src} alt="profile picture" />
+        <div className="info">
+          <p>{name}</p>
+          <Button onClick={this.signOut}>Útskrá</Button>
+        </div>
+      </div>
+    );
+  }
+
+  
+
   render() {
+    const { user } = this.props;
+    let logged;
+    if (user) {
+      logged = this.signedIn(user);
+    } else {
+      logged = (<Link to="/login">Innskráning</Link>);
+    }
+
     return (
       <header className="header">
         <h1 className="header__heading"><Link to="/">Bókasafnið</Link></h1>
 
-        {/* ætti samt frekar heima í sér component */}
-        <Button onClick={this.onClick}>Leita</Button>
+        <Search />
 
-        <Link to="/login">Innskráning</Link>
+        {logged}
       </header>
     );
   }
@@ -29,7 +60,10 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth,
+    isFetching: state.auth.isFetching,
+    user: state.auth.user,
+    isAuthenticated: state.auth.isAuthenticated,
+    message: state.auth.message,
   }
 }
 

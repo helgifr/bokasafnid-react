@@ -7,6 +7,77 @@
 
 import api from '../api';
 
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_LOGOUT = 'LOGIN_LOGOUT';
+
+function requestLogin() {
+  return {
+    type: LOGIN_REQUEST,
+    isFetching: true,
+    isAuthenticated: false,
+  }
+}
+
+function loginError(message) {
+  return {
+    type: LOGIN_ERROR,
+    isFetching: false,
+    isAuthenticated: false,
+    message
+  }
+}
+
+function receiveLogin(user) {
+  return {
+    type: LOGIN_SUCCESS,
+    isFetching: false,
+    isAuthenticated: true,
+    user,
+    message: null,
+  }
+}
+
+function logout() {
+  return {
+    type: LOGIN_LOGOUT,
+    isFetching: false,
+    isAuthenticated: false,
+    user: null,
+  }
+}
+
+export const login = (username, password) => {
+  return async (dispatch) => {
+    dispatch(requestLogin());
+
+    let login;
+    const data = { username, password };
+    try {
+      login = await api.post('/login', data);
+    } catch (e) {
+      return dispatch(loginError(e));
+    }
+
+    if (login.result === 401) {
+      dispatch(loginError('Villa'));
+    } else {
+      const { user, token } = login.result;
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', JSON.stringify(token));
+      dispatch(receiveLogin(user));
+    }
+  }
+}
+
+export const logoutUser = () => {
+  return async (dispatch) => {
+    window.localStorage.clear();
+    dispatch(logout());
+  }
+}
+
 export const BOOKS_REQUEST = 'BOOKS_REQUEST';
 export const BOOKS_ERROR = 'BOOKS_ERROR';
 export const BOOKS_SUCCESS = 'BOOKS_SUCCESS';
@@ -55,10 +126,6 @@ export const fetchBooks = () => {
   }
 }
 
-export const AUTH_REQUEST = 'AUTH_REQUEST';
-export const AUTH_ERROR = 'AUTH_ERROR';
-export const AUTH_SUCCESS = 'AUTH_SUCCESS';
-
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_ERROR = 'SIGNUP_ERROR';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
@@ -104,47 +171,7 @@ export const signup = (name, username, password) => {
   }
 }
 
-function requestAuth() {
-  return {
-    type: AUTH_REQUEST,
-    isFetching: true,
-    isAuthenticated: false,
-    message: null,
-  }
-}
 
-function authError(error) {
-  return {
-    type: AUTH_ERROR,
-    isFetching: false,
-    result: null,
-    error: error,
-  }
-}
-
-function receiveAuth(result) {
-  return {
-    type: AUTH_SUCCESS,
-    isFetching: false,
-    result,
-    message: 'success',
-  }
-}
-
-export const checkAuth = () => {
-  return async (dispatch) => {
-    dispatch(requestAuth());
-
-    let result;
-    try {
-      result = await api.get('/users');
-    } catch (e) {
-      return dispatch(authError(e));
-    }
-
-    dispatch(receiveAuth(result));
-  }
-}
 /* todo fleiri action */
 
 /* todo async "thunk" fyrir tengingu við vefþjónustu */

@@ -1,39 +1,50 @@
 import {
-  AUTH_REQUEST,
-  AUTH_ERROR,
-  AUTH_SUCCESS,
-  /* todo fleiri actions */
+  LOGIN_REQUEST,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_LOGOUT,
 } from '../actions/auth';
+
+const user = JSON.parse(localStorage.getItem('user') || 'null');
 
 const initialState = {
   isFetching: false,
-  result: null,
-  error: null,
-  errors: [],
+  isAuthenticated: user ? true : false,
+  user,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_REQUEST:
+    case LOGIN_REQUEST:
       return {
         ...state,
         isFetching: action.isFetching,
+        isAuthenticated: action.isAuthenticated,
       };
 
-    case AUTH_ERROR:
+    case LOGIN_ERROR:
       return {
         ...state,
         isFetching: action.isFetching,
-        result: action.result,
-        error: action.error,
+        isAuthenticated: action.isAuthenticated,
+        message: action.message
       };
 
-    case AUTH_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isFetching: action.isFetching,
-        result: action.result,
-        error: action.error,
+        isAuthenticated: action.isAuthenticated,
+        user: action.user,
+        message: action.message,
+      };
+
+    case LOGIN_LOGOUT:
+      return {
+        ...state,
+        isFetching: action.isFetching,
+        isAuthenticated: action.isAuthenticated,
+        user: action.user,
       };
 
     default:

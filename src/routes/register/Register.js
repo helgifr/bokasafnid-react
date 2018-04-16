@@ -13,26 +13,17 @@ class Register extends Component {
 
   state = { redirect: false };
 
-  usernameInput = null;
-  setUsernameInput = element => {
-    this.usernameInput = element;
-  }
+  usernameInput = React.createRef();
 
-  passwordInput = null;
-  setPasswordInput = element => {
-    this.passwordInput = element;
-  }
+  passwordInput = React.createRef();
 
-  nameInput = null;
-  setNameInput = element => {
-    this.nameInput = element;
-  }
+  nameInput = React.createRef();
 
   submit = (e) => {
     e.preventDefault();
-    const username = this.usernameInput.value;
-    const password = this.passwordInput.value;
-    const name = this.nameInput.value;
+    const username = this.usernameInput.current.value;
+    const password = this.passwordInput.current.value;
+    const name = this.nameInput.current.value;
     const { dispatch } = this.props;
     dispatch(signup(name, username, password));
   }
@@ -62,22 +53,22 @@ class Register extends Component {
     if (redirect) {
       return (
         <div>
-          <p>Innskráning tókst</p>
+          <p>Nýskráning tókst</p>
           <p><Link to="/login">Innskráning</Link></p>
         </div>
-    );
-  }  
+      );
+    }
 
     return (
       <div>
         <p>Nýskráning</p>
         <form>
           <p>Username:</p>
-          <input type="text" name="username" ref={this.setUsernameInput}/>
+          <input type="text" name="username" ref={this.usernameInput}/>
           <p>Password:</p>
-          <input type="password" name="password" ref={this.setPasswordInput}/>
+          <input type="password" name="password" ref={this.passwordInput}/>
           <p>Name:</p>
-          <input type="text"name="name" ref={this.setNameInput}/>
+          <input type="text"name="name" ref={this.nameInput}/>
           <button onClick={this.submit}>Submit</button>
         </form>
       </div>

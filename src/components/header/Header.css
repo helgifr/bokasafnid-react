@@ -1,3 +1,38 @@
 .header {
   background-color: #dcbe87;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 5em;
+  padding: 20px;
+  flex-wrap: wrap;
+}
+
+.user {
+  max-height: 100%;
+  display: flex;
+  flex-direction: row;
+  max-height: 4.6em;
+  max-width: 10em;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user img {
+  max-width: 56px;
+  max-height: 56px;
+  border-radius: 50%;
+  margin: auto 0;
+}
+
+.user .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__heading a {
+  text-decoration: none;
+  text-align: center;
 }

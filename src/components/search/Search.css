@@ -1,0 +1,13 @@
+.search-form {
+  display: flex;
+  font-size: 1rem;
+  max-width: 18.5em;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.search-form input {
+  font-size: 1rem;
+  padding: 5px;
+}
