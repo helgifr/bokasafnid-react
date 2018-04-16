@@ -12,20 +12,29 @@ class Books extends Component {
   state = {
     loading: true,
     page: queryString.parse(this.props.location.search).page,
+    query: queryString.parse(this.props.location.search).query,
   }
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    await dispatch(fetchBooks(`?offset=${10 * (this.state.page - 1)}`));
+    const { page = 1, query = '' } = this.state;
+    console.log(page);
+    
+    console.log(`?offset=${10 * (page - 1)}&search=${query}`);
+    
+    await dispatch(fetchBooks(`?offset=${10 * (page - 1)}&search=${query}`));
     this.setState({ loading: false });
   }
-
+  
   async componentDidUpdate(prevProps, prevState) {
     const newqs = queryString.parse(this.props.location.search);
-    if (prevState.page !== newqs.page) {
+    const { page = 1, query = '' } = newqs;
+
+    if (prevState.page !== page || prevState.query !== query) {
       const { dispatch } = this.props;
-      this.setState({ loading: true, page: newqs.page });
-      await dispatch(fetchBooks(`?offset=${10 * (newqs.page - 1)}`));
+      console.log(`?offset=${10 * (page - 1)}&search=${query}`);
+      this.setState({ loading: true, page, query });
+      await dispatch(fetchBooks(`?offset=${10 * (page - 1)}&search=${query}`));
       this.setState({ loading: false });
     }
   }
@@ -41,7 +50,7 @@ class Books extends Component {
         <p>Sæki bækur...</p>
       );
     }
-    
+
     return (
       <section>
         <h1>Bækur</h1>
@@ -59,10 +68,10 @@ class Books extends Component {
           })}
         </ul>
         {page > 1 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `?${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&search=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
         }
         {books.items.length === 10 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `?${query}` : '') }}><Button>Næsta síða ></Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `&search=${query}` : '') }}><Button>Næsta síða ></Button></Link>
         }
       </section>
     );

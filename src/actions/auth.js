@@ -66,8 +66,7 @@ export const login = (username, password) => {
       const { user, token } = login.result;
       console.log(typeof token);
       console.log(login.result);
-      
-      
+
       localStorage.setItem('token', token);
       console.log(localStorage.getItem('token'));
       

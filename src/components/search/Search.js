@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom'
 
 import Button from '../button';
 
@@ -9,16 +10,11 @@ import './Search.css';
 
 export default class Search extends Component {
 
-  onClick = (e) => {
-    e.preventDefault();
-    console.log('leita');
-  }
-
   render() {
     return (
-      <form className="search-form">
-        <input type="text" placeholder="Bókaleit" />
-        <Button onClick={this.onClick}>Leita</Button>
+      <form action="/books" className="search-form">
+        <input type="text" placeholder="Bókaleit" name="query" ref={this.query} />
+        <Button>Leita</Button>
       </form>
     );
   }
