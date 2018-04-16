@@ -28,7 +28,7 @@ class Header extends Component {
       <div className="user">
         <img src={src} alt="profile picture" />
         <div className="info">
-          <p>{name}</p>
+          <Link to="/profile">{name}</Link>
           <Button onClick={this.signOut}>Útskrá</Button>
         </div>
       </div>

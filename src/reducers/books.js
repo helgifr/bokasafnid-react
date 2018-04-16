@@ -1,26 +1,22 @@
-import {
-  BOOKS_REQUEST,
-  BOOKS_ERROR,
-  BOOKS_SUCCESS,
-  /* todo fleiri actions */
-} from '../actions/auth';
+import { BOOKS_REQUEST, BOOKS_ERROR, BOOKS_SUCCESS, BOOKS_ADD_REQUEST, BOOKS_ADD_ERROR, BOOKS_ADD_SUCCESS } from '../actions/books';
 
 const initialState = {
   isFetching: false,
-  books: null,
+  isAdding: false,
+  books: {},
   error: null,
   errors: [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_REQUEST:
+    case BOOKS_REQUEST:
       return {
         ...state,
         isFetching: action.isFetching,
       };
 
-    case LOGIN_ERROR:
+    case BOOKS_ERROR:
       return {
         ...state,
         isFetching: action.isFetching,
@@ -28,11 +24,31 @@ export default (state = initialState, action) => {
         error: action.error,
       };
 
-    case LOGIN_SUCCESS:
+    case BOOKS_SUCCESS:
       return {
         ...state,
         isFetching: action.isFetching,
         books: action.books,
+        error: action.error,
+      };
+
+    case BOOKS_ADD_REQUEST:
+      return {
+        ...state,
+        isAdding: action.isAdding,
+        errors: [],
+      };
+    case BOOKS_ADD_ERROR:
+      return {
+        ...state,
+        isAdding: action.isAdding,
+        errors: action.errors,
+      };
+    case BOOKS_ADD_SUCCESS:
+      return {
+        ...state,
+        isAdding: action.isAdding,
+        books: [...state.books, action.note],
         error: action.error,
       };
 

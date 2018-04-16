@@ -36,8 +36,6 @@ class Login extends Component {
       if (!user) {
         console.log('Wrong login info');
       } else {
-        window.localStorage.setItem('token', user.token);
-        window.localStorage.setItem('user', JSON.stringify(user));
         this.setState({ redirect: true });
       }
     }

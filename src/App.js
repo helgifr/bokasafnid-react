@@ -14,6 +14,7 @@ import Profile from './routes/profile';
 import NotFound from './routes/not-found';
 import Books from './routes/books';
 import Register from './routes/register';
+import Book from './routes/book';
 
 /* todo fleiri routes */
 
@@ -35,6 +36,7 @@ class App extends Component {
             <Route path="/login" exact component={Login} />
             <Route path="/register" exact component={Register} />
             <Route path="/books" exact component={Books} />
+            <Route path="/books/:book" exact component={Book} />
             <UserRoute path="/profile" authenticated={authenticated} component={Profile} />
             {/* todo fleiri route */}
             <Route component={NotFound} />

@@ -64,8 +64,14 @@ export const login = (username, password) => {
       dispatch(loginError('Villa'));
     } else {
       const { user, token } = login.result;
+      console.log(typeof token);
+      console.log(login.result);
+      
+      
+      localStorage.setItem('token', token);
+      console.log(localStorage.getItem('token'));
+      
       localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', JSON.stringify(token));
       dispatch(receiveLogin(user));
     }
   }
