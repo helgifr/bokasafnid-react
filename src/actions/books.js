@@ -70,7 +70,6 @@ export const fetchBooks = (endpoint) => {
     } catch (e) {
       return dispatch(booksError(e))
     }
-
     dispatch(receiveBooks(books.result));
   }
 }

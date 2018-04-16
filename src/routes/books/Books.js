@@ -16,17 +16,16 @@ class Books extends Component {
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    await dispatch(fetchBooks(`?offset=${10 * this.state.page - 1}`));
+    await dispatch(fetchBooks(`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
   }
 
   async componentDidUpdate(prevProps, prevState) {
     const newqs = queryString.parse(this.props.location.search);
-    console.log(prevState.page, newqs.page);
     if (prevState.page !== newqs.page) {
       const { dispatch } = this.props;
       this.setState({ loading: true, page: newqs.page });
-      await dispatch(fetchBooks(`?offset=${10 * this.state.page - 1}`));
+      await dispatch(fetchBooks(`?offset=${10 * (newqs.page - 1)}`));
       this.setState({ loading: false });
     }
   }
@@ -36,9 +35,6 @@ class Books extends Component {
     const { books } = this.props;
     const qs = queryString.parse(this.props.location.search);
     const { page = 1, query = '' } = qs;
-    console.log(page, query);
-    console.log(books);
-    
 
     if (loading) {
       return (
@@ -63,10 +59,10 @@ class Books extends Component {
           })}
         </ul>
         {page > 1 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}&${query}` }}><Button>{"<"} Til baka</Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `?${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
         }
         {books.items.length === 10 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}&${query}` }}><Button>Næsta síða ></Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `?${query}` : '') }}><Button>Næsta síða ></Button></Link>
         }
       </section>
     );
