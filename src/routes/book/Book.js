@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchBooks } from '../../actions/books';
+import Helmet from 'react-helmet';
 
 class Book extends Component {
 
@@ -27,6 +28,7 @@ class Book extends Component {
 
     return (
       <section>
+        <Helmet title={books.title} />
         <p>{books.title}</p>
         <p>Eftir {books.author}</p>
         <p>ISBN13: {books.isbn13}</p>

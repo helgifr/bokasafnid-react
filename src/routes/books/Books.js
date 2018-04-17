@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchBooks } from '../../actions/books';
 import queryString from 'query-string';
+import Helmet from 'react-helmet';
 
 import Book from '../../components/book';
 import Button from '../../components/button';
@@ -44,6 +45,8 @@ class Books extends Component {
     const { books } = this.props;
     const qs = queryString.parse(this.props.location.search);
     const { page = 1, query = '' } = qs;
+    console.log(query);
+    
 
     if (loading) {
       return (
@@ -53,6 +56,7 @@ class Books extends Component {
 
     return (
       <section>
+        <Helmet title={`Bækur - síða ${page}`} />
         <h1>Bækur</h1>
         <ul>
           {books.items.map((book) => {
@@ -68,10 +72,10 @@ class Books extends Component {
           })}
         </ul>
         {page > 1 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&search=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&query=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
         }
         {books.items.length === 10 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `&search=${query}` : '') }}><Button>Næsta síða ></Button></Link>
+          <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `&query=${query}` : '') }}><Button>Næsta síða ></Button></Link>
         }
       </section>
     );

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 import { login } from '../../actions/auth';
 
@@ -48,6 +49,7 @@ class Login extends Component {
     }
     return (
       <div>
+        <Helmet title='Innskráning' />
         <p>Innskráning</p>
         {message &&
           <p>{message.error}</p>

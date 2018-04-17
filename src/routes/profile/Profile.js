@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 import { connect } from 'react-redux';
+=======
+import Helmet from 'react-helmet';
+>>>>>>> cce20a70c201f0b1a9001e56248e9aead033deff
 
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../../actions/auth';
@@ -150,6 +154,7 @@ class Profile extends Component {
     
     return (
       <div>
+<<<<<<< HEAD
         <section>
         <h1>Upplýsingar</h1>
           {updateImage}
@@ -157,6 +162,10 @@ class Profile extends Component {
           {updatePassword}
         </section>
         {books}
+=======
+        <Helmet title="Síða mín" />
+        <p>Notendasíða</p>
+>>>>>>> cce20a70c201f0b1a9001e56248e9aead033deff
       </div>
     );
   }
