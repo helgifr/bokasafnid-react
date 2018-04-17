@@ -34,18 +34,26 @@ class Register extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isFetching, result, message } = this.props;
+    const { isFetching, result, errors } = this.props;
     const { redirect } = this.state;
-    console.log(result);
-    
+    this.usernameInput.current.classList.remove('wrong-input');
+    this.passwordInput.current.classList.remove('wrong-input');
+    this.nameInput.current.classList.remove('wrong-input');
 
     if (!isFetching && !redirect) {
-      if (result.status === 401) {
-        console.log('Wrong info');
-      }
-      if(result.status === 201) {
+      if (result.status === 201) {
         console.log('Tókst ad skra notanda');
         this.setState({ redirect: true });
+      } else {
+        errors.map((error) => {
+          if (error.field === this.usernameInput.current.id) {
+            this.usernameInput.current.classList.add("wrong-input");
+          } else if (error.field === this.passwordInput.current.id) {
+            this.passwordInput.current.classList.add("wrong-input");
+          } else {
+            this.nameInput.current.classList.add("wrong-input");
+          }
+        })
       }
     }
   }
@@ -70,16 +78,16 @@ class Register extends Component {
         <p>Nýskráning</p>
         <ul>
           {errors.map((error) => {
-            return (<li>{error.message}</li>);
+            return (<li key={error.field}>{error.message}</li>);
           })}
         </ul>
         <form>
           <p>Username:</p>
-          <input type="text" name="username" ref={this.usernameInput}/>
+          <input type="text" name="username" id="username" ref={this.usernameInput}/>
           <p>Password:</p>
-          <input type="password" name="password" ref={this.passwordInput}/>
+          <input type="password" name="password" id="password" ref={this.passwordInput}/>
           <p>Name:</p>
-          <input type="text"name="name" ref={this.nameInput}/>
+          <input type="text"name="name" id="name" ref={this.nameInput}/>
           <button onClick={this.submit}>Submit</button>
         </form>
       </div>
