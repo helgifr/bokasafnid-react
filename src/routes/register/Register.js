@@ -19,29 +19,32 @@ class Register extends Component {
 
   nameInput = React.createRef();
 
+  componentDidMount() {
+    this.usernameInput.current.focus();
+  }
+
   submit = (e) => {
     e.preventDefault();
     const username = this.usernameInput.current.value;
     const password = this.passwordInput.current.value;
     const name = this.nameInput.current.value;
+    
     const { dispatch } = this.props;
     dispatch(signup(name, username, password));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isFetching, result, type } = this.props;
+    const { isFetching, result, message } = this.props;
     const { redirect } = this.state;
+    console.log(result);
+    
 
     if (!isFetching && !redirect) {
       if (result.status === 401) {
         console.log('Wrong info');
-      } 
-      if(result.status === 400){
-        console.log(result.result.error);
       }
-        else {
+      if(result.status === 201) {
         console.log('Tókst ad skra notanda');
-        
         this.setState({ redirect: true });
       }
     }
@@ -49,6 +52,9 @@ class Register extends Component {
 
   render() {
     const { redirect } = this.state;
+    const { errors = [] } = this.props;
+    console.log(errors);
+    
 
     if (redirect) {
       return (
@@ -62,6 +68,11 @@ class Register extends Component {
     return (
       <div>
         <p>Nýskráning</p>
+        <ul>
+          {errors.map((error) => {
+            return (<li>{error.message}</li>);
+          })}
+        </ul>
         <form>
           <p>Username:</p>
           <input type="text" name="username" ref={this.usernameInput}/>
@@ -83,7 +94,7 @@ const mapStateToProps = (state) => {
     type: state.register.type,
     isFetching: state.register.isFetching,
     result: state.register.result,
-    error: state.register.error,
+    errors: state.register.errors,
     success: state.register.success,
   }
   /* todo stilla redux ef það er notað */

@@ -24,7 +24,7 @@ import {
           ...state,
           isFetching: action.isFetching,
           result: action.result,
-          error: action.error,
+          errors: action.errors,
         };
   
       case SIGNUP_SUCCESS:

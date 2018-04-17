@@ -57,19 +57,17 @@ export const login = (username, password) => {
     try {
       login = await api.post('/login', data);
     } catch (e) {
+      console.log('hva');
+      
       return dispatch(loginError(e));
     }
-
-    if (login.result === 401) {
-      dispatch(loginError('Villa'));
+    console.log(login);
+    
+    if (login.status === 401) {
+      dispatch(loginError(login.result));
     } else {
       const { user, token } = login.result;
-      console.log(typeof token);
-      console.log(login.result);
-
       localStorage.setItem('token', token);
-      console.log(localStorage.getItem('token'));
-      
       localStorage.setItem('user', JSON.stringify(user));
       dispatch(receiveLogin(user));
     }
@@ -144,11 +142,13 @@ function requestSignup() {
 }
 
 function signupError(error) {
+  console.log(error);
+  
   return {
     type: SIGNUP_ERROR,
     isFetching: false,
-    result: 'villa kall',
-    error: error,
+    result: error,
+    errors: error.result.errors,
   }
 }
 
@@ -171,12 +171,12 @@ export const signup = (name, username, password) => {
     } catch (e) {
       return dispatch(signupError(e));
     }
-
-    dispatch(receiveResult(result));
+    console.log(result);
+    
+    if (result.status === 400) {
+      dispatch(signupError(result));
+    } else {
+      dispatch(receiveResult(result));
+    }
   }
 }
-
-
-/* todo fleiri action */
-
-/* todo async "thunk" fyrir tengingu við vefþjónustu */

@@ -30,12 +30,10 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isFetching, user, type } = this.props;
+    const { isFetching, user, type, message } = this.props;
 
     if (!isFetching) {
-      if (!user) {
-        console.log('Wrong login info');
-      } else {
+      if (user) {
         this.setState({ redirect: true });
       }
     }
@@ -43,12 +41,17 @@ class Login extends Component {
 
   render() {
     const { redirect } = this.state;
+    const { message } = this.props;
+
     if (redirect) {
       return <Redirect to="/" />
     }
     return (
       <div>
         <p>Innskráning</p>
+        {message &&
+          <p>{message.error}</p>
+        }
         <form onSubmit={this.submit}>
           <input type="text" name="username" ref={this.usernameInput} />
           <input type="password" name="password" ref={this.passwordInput}/>
