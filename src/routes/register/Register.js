@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import Helmet from 'react-helmet';
 
 import { signup } from '../../actions/auth';
 
@@ -77,6 +78,7 @@ class Register extends Component {
 
     return (
       <div>
+        <Helmet title="Nýskráning" />
         <p>Nýskráning</p>
         <ul>
           {errors.map((error) => {
