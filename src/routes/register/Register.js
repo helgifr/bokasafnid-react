@@ -36,11 +36,13 @@ class Register extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { isFetching, result, errors } = this.props;
     const { redirect } = this.state;
-    this.usernameInput.current.classList.remove('wrong-input');
-    this.passwordInput.current.classList.remove('wrong-input');
-    this.nameInput.current.classList.remove('wrong-input');
-
+    
     if (!isFetching && !redirect) {
+
+      this.usernameInput.current.classList.remove('wrong-input');
+      this.passwordInput.current.classList.remove('wrong-input');
+      this.nameInput.current.classList.remove('wrong-input');
+
       if (result.status === 201) {
         console.log('Tókst ad skra notanda');
         this.setState({ redirect: true });
@@ -53,7 +55,7 @@ class Register extends Component {
           } else {
             this.nameInput.current.classList.add("wrong-input");
           }
-        })
+        });
       }
     }
   }
