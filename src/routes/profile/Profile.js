@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
+
 import { connect } from 'react-redux';
-=======
+
 import Helmet from 'react-helmet';
->>>>>>> cce20a70c201f0b1a9001e56248e9aead033deff
+
 
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../../actions/auth';
@@ -16,7 +16,7 @@ import ReadBook from '../../components/readBooks';
 import Button from '../../components/button';
 
 class Profile extends Component {
-  
+
   state = {
     loading: true,
     page: queryString.parse(this.props.location.search).page,
@@ -38,7 +38,7 @@ class Profile extends Component {
     return (
       <div className="user">
         <img src={src} alt="profile picture" />
-        <p className="name"> {name} </p> 
+        <p className="name"> {name} </p>
         <div className="info">
 
         </div>
@@ -49,7 +49,7 @@ class Profile extends Component {
   books(){
     const { loading } = this.state;
     const { books } = this.props;
-    
+
     const qs = queryString.parse(this.props.location.search);
     const { page = 1, query = '' } = qs;
 
@@ -58,7 +58,7 @@ class Profile extends Component {
         <p>Sæki bækur...</p>
       );
     }
-    
+
 
     return (
       <section>
@@ -100,9 +100,9 @@ class Profile extends Component {
 
   updateImage(){
 
-    
+
     return (
-      <div> 
+      <div>
       </div>
     );
 
@@ -110,9 +110,9 @@ class Profile extends Component {
 
   updateName(){
 
-    
+
     return (
-      <div> 
+      <div>
         <form onSubmit={this.submitName}>
           <p> Nafn: </p>
           <input type="text" name="name" ref={this.nameInput} />
@@ -124,9 +124,9 @@ class Profile extends Component {
   }
 
   updatePassword(){
-    
+
     return (
-      <div> 
+      <div>
         <form onSubmit={this.submitPassword}>
         <p> Lykilorð: </p>
         <input type="password" name="password1" ref={this.passwordInput1}/>
@@ -151,10 +151,9 @@ class Profile extends Component {
     let updatePassword = this.updatePassword();
     let info = this.info(user);
     let books = this.books();
-    
+
     return (
       <div>
-<<<<<<< HEAD
         <section>
         <h1>Upplýsingar</h1>
           {updateImage}
@@ -162,10 +161,8 @@ class Profile extends Component {
           {updatePassword}
         </section>
         {books}
-=======
         <Helmet title="Síða mín" />
         <p>Notendasíða</p>
->>>>>>> cce20a70c201f0b1a9001e56248e9aead033deff
       </div>
     );
   }
