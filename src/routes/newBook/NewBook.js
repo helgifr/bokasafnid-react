@@ -74,42 +74,63 @@ class NewBook extends Component {
     return (
       <div>
         <Helmet title='Skrá bók' />
-        <p>Nýskráning</p>
+        <h1>Ný bók</h1>
         <form>
-          <p>Titill:</p>
-          <input type="text" name="title" ref={this.titleInput}/>
-          <p>Höfundur:</p>
-          <input type="text" name="author" ref={this.authorInput}/>
-          <p>Lýsing:</p>
-          <textarea rows="4" cols="50" name="description" ref={this.descriptionInput}>
-          </textarea>
-          <p>Flokkur:</p>
-          <select ref={this.categoryInput}>
-            <option value="Fiction">Fiction</option>
-            <option value="Fantacy">Fantacy</option>
-            <option value="Computer Science">Computer Science</option>
-            <option value="Design">Design</option>
-            <option value="Buisness">Buisness</option>
-            <option value="Economics">Economics</option>
-            <option value="Science Fiction">Science Fiction</option>
-            <option value="Comic">Comic</option>
-            <option value="Nonfiction">Nonfiction</option>
-            <option value="Graphic Novel">Graphic Novel</option>
-            <option value="Horror">Horror</option>
-            <option value="Psychology">Psychology</option>
-          </select>
-          <p>ISBN10:</p>
-          <input type="text"name="isbn10" ref={this.isbn10Input}/>
-          <p>ISBN13:</p>
-          <input type="text"name="isbn13" ref={this.isbn13Input}/>
-          <p>Útgefin:</p>
-          <input type="text"name="published" ref={this.publishedInput}/>
-          <p>Fjöldi Síðna:</p>
-          <input type="text"name="pages" ref={this.pagesInput}/>
-          <p>Tungumál:</p>
-          <input type="text"name="language" ref={this.languageInput}/>
+          <div class="skraElement">
+            <p>Titill:</p>
+            <input type="text" name="title" ref={this.titleInput}/>
+          </div>
+          <div class="skraElement">
+            <p>Höfundur:</p>
+            <input type="text" name="author" ref={this.authorInput}/>
+          </div>
+          <div class="lysing">
+            <p>Lýsing:</p>
+            <textarea rows="4" cols="50" name="description" ref={this.descriptionInput}>
+            </textarea>
+          </div>
+          <div class="skraElement">
+            <p>Flokkur:</p>
+            <select ref={this.categoryInput}>
+              <option value="null">--Veljið flokk--</option>
+              <option value="Fiction">Fiction</option>
+              <option value="Fantacy">Fantacy</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Design">Design</option>
+              <option value="Buisness">Buisness</option>
+              <option value="Economics">Economics</option>
+              <option value="Science Fiction">Science Fiction</option>
+              <option value="Comic">Comic</option>
+              <option value="Nonfiction">Nonfiction</option>
+              <option value="Graphic Novel">Graphic Novel</option>
+              <option value="Horror">Horror</option>
+              <option value="Psychology">Psychology</option>
+            </select>
+          </div>
+          <div class="skraElement">
+            <p>ISBN10:</p>
+            <input type="text"name="isbn10" ref={this.isbn10Input}/>
+          </div>
+          <div class="skraElement">
+            <p>ISBN13:</p>
+            <input type="text"name="isbn13" ref={this.isbn13Input}/>
+          </div>
+          <div class="skraElement">
+            <p>Útgefin:</p>
+            <input type="text"name="published" ref={this.publishedInput}/>
+          </div>
+          <div class="skraElement">
+            <p>Fjöldi Síðna:</p>
+            <input type="text"name="pages" ref={this.pagesInput}/>
+          </div>
+          <div class="skraElement">
+            <p>Tungumál:</p>
+            <input type="text"name="language" ref={this.languageInput}/>
+          </div>
           <p></p>
-          <button onClick={this.submit}>Submit</button>
+          <div class="skraElement">
+          <button onClick={this.submit} class="vistaButton">Vista</button>
+          </div>
         </form>
       </div>
     );
