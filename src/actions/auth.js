@@ -171,12 +171,81 @@ export const signup = (name, username, password) => {
     } catch (e) {
       return dispatch(signupError(e));
     }
-    console.log(result);
+    console.log("result");
     
     if (result.status === 400) {
       dispatch(signupError(result));
     } else {
       dispatch(receiveResult(result));
     }
+  }
+}
+
+export const USER_UPDATE_SUCCESS = 'USER_UPDATE_SUCCESS';
+export const USER_UPDATE_REQUEST = 'USER_UPDATE_REQUEST';
+export const USER_UPDATE_ERROR = 'USER_UPDATE_ERROR';
+
+function requestUpdate() {
+  return {
+    type: USER_UPDATE_REQUEST,
+    isFetchingUser: true,
+    message: null,
+  }
+}
+
+function updateError(error) {
+  console.log(error);
+  
+  return {
+    type: USER_UPDATE_ERROR,
+    isFetchingUser: false,
+    result: error,
+    errors: error.result.errors,
+  }
+}
+
+function receiveUpdate(user) {
+  return {
+    type: USER_UPDATE_SUCCESS,
+    isFetchingUser: false,
+    isAuthenticated: true,
+    user,
+    message: null,
+  }
+}
+
+export const updateName = (name) => {
+  return async (dispatch) => {
+    dispatch(requestUpdate());
+
+    let update;
+    const data = {name};
+    
+    try {
+      update = await api.patch(`/users/me`, data);
+    } catch (e) {
+      return dispatch(updateError(e))
+    }
+    console.log(update);
+    dispatch(receiveUpdate(update.result));
+  }
+}
+
+export const updatePassword = (password) => {
+  return async (dispatch) => {
+    dispatch(requestUpdate());
+
+    let update;
+    const data = {password};
+    
+    try {
+      update = await api.patch(`/users/me`, data);
+      
+    } catch (e) {
+
+      return dispatch(updateError(e))
+    }
+    
+    dispatch(receiveUpdate(update.result));
   }
 }
