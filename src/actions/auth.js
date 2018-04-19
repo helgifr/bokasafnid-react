@@ -57,12 +57,9 @@ export const login = (username, password) => {
     try {
       login = await api.post('/login', data);
     } catch (e) {
-      console.log('hva');
-      
       return dispatch(loginError(e));
     }
-    console.log(login);
-    
+
     if (login.status === 401) {
       dispatch(loginError(login.result));
     } else {
@@ -118,8 +115,6 @@ export const fetchBooks = () => {
 
     let result;
     try {
-      console.log(window.location);
-      
       result = await api.get(window.location);
     } catch (e) {
       return dispatch(booksError(e));
@@ -142,8 +137,6 @@ function requestSignup() {
 }
 
 function signupError(error) {
-  console.log(error);
-  
   return {
     type: SIGNUP_ERROR,
     isFetching: false,
@@ -171,8 +164,7 @@ export const signup = (name, username, password) => {
     } catch (e) {
       return dispatch(signupError(e));
     }
-    console.log(result);
-    
+
     if (result.status === 400) {
       dispatch(signupError(result));
     } else {

@@ -8,6 +8,7 @@ import { signup } from '../../actions/auth';
 
 /* todo sækja actions frá ./actions */
 
+import Button from '../../components/button';
 import './Register.css';
 
 class Register extends Component {
@@ -15,10 +16,13 @@ class Register extends Component {
   state = { redirect: false };
 
   usernameInput = React.createRef();
+  usernameLabel = React.createRef();
 
   passwordInput = React.createRef();
+  passwordLabel = React.createRef();
 
   nameInput = React.createRef();
+  nameLabel = React.createRef();
 
   componentDidMount() {
     this.usernameInput.current.focus();
@@ -41,8 +45,11 @@ class Register extends Component {
     if (!isFetching && !redirect) {
 
       this.usernameInput.current.classList.remove('wrong-input');
+      this.usernameLabel.current.classList.remove('wrong-label');
       this.passwordInput.current.classList.remove('wrong-input');
+      this.passwordLabel.current.classList.remove('wrong-label');
       this.nameInput.current.classList.remove('wrong-input');
+      this.nameLabel.current.classList.remove('wrong-label');
 
       if (result.status === 201) {
         console.log('Tókst ad skra notanda');
@@ -51,10 +58,13 @@ class Register extends Component {
         errors.map((error) => {
           if (error.field === this.usernameInput.current.id) {
             this.usernameInput.current.classList.add("wrong-input");
+            this.usernameLabel.current.classList.add('wrong-label');
           } else if (error.field === this.passwordInput.current.id) {
             this.passwordInput.current.classList.add("wrong-input");
+            this.passwordLabel.current.classList.add('wrong-label');
           } else {
             this.nameInput.current.classList.add("wrong-input");
+            this.nameLabel.current.classList.add('wrong-label');
           }
         });
       }
@@ -77,22 +87,28 @@ class Register extends Component {
     }
 
     return (
-      <div>
+      <div className="registerPage">
         <Helmet title="Nýskráning" />
-        <p>Nýskráning</p>
+        <h1>Nýskráning</h1>
         <ul>
           {errors.map((error) => {
             return (<li key={error.field}>{error.message}</li>);
           })}
         </ul>
-        <form>
-          <p>Username:</p>
-          <input type="text" name="username" id="username" ref={this.usernameInput}/>
-          <p>Password:</p>
-          <input type="password" name="password" id="password" ref={this.passwordInput}/>
-          <p>Name:</p>
-          <input type="text"name="name" id="name" ref={this.nameInput}/>
-          <button onClick={this.submit}>Submit</button>
+        <form className="loginForm">
+          <div className="field">
+            <label htmlFor="username" ref={this.usernameLabel}>Notendanafn: </label>
+            <input type="text" name="username" className="field-input" id="username" ref={this.usernameInput}/>
+          </div>
+          <div className="field">
+            <label htmlFor="password" ref={this.passwordLabel}>Lykilorð: </label>
+            <input type="password" name="password" className="field-input" id="password" ref={this.passwordInput}/>
+          </div>
+          <div className="field">
+            <label htmlFor="name" ref={this.nameLabel}>Nafn: </label>
+            <input type="text"name="name" className="field-input" id="name" ref={this.nameInput}/>
+          </div>
+          <Button onClick={this.submit}>Submit</Button>
         </form>
       </div>
     );

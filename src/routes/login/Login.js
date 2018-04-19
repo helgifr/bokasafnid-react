@@ -64,11 +64,11 @@ class Login extends Component {
         <form onSubmit={this.submit} className="loginForm">
           <div className="field">
             <label htmlFor="username">Notendanafn: </label>
-            <input type="text" name="username" id="username" ref={this.usernameInput} />
+            <input type="text" name="username" className="field-input" id="username" ref={this.usernameInput} />
           </div>
           <div className="field">
             <label htmlFor="password">Lykilorð: </label>
-            <input type="password" name="password" id="password" ref={this.passwordInput}/>
+            <input type="password" name="password" className="field-input" id="password" ref={this.passwordInput}/>
           </div>
           <Button>Innskrá</Button>
         </form>
