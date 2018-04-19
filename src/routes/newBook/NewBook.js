@@ -7,11 +7,11 @@ import Helmet from 'react-helmet';
 /* todo sækja actions frá ./actions */
 
 import './NewBook.css';
-import { addBook } from '../../actions/books';
+import { addBook, fetchCategory } from '../../actions/books';
 
 class NewBook extends Component {
 
-  state = { redirect: false };
+  state = { redirect : false, loading:true};
 
   titleInput = React.createRef();
   authorInput = React.createRef();
@@ -22,6 +22,13 @@ class NewBook extends Component {
   publishedInput = React.createRef();
   pagesInput = React.createRef();
   languageInput = React.createRef();
+
+  async componentDidMount() {
+    const { dispatch } = this.props;
+    
+    const category = await dispatch(fetchCategory());
+    this.setState({loading: false});
+  }
 
   submit = (e) => {
     e.preventDefault();
@@ -35,14 +42,12 @@ class NewBook extends Component {
     const pages = this.pagesInput.current.value;
     const language = this.languageInput.current.value;
     const { dispatch } = this.props;
-    console.log(author);
     dispatch(addBook(title, isbn13, author, description, category, isbn10, published, pages, language));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isAdding, book, type } = this.props;
-    const { redirect } = this.state;
-
+    const { isAdding, book, type, category } = this.props;
+    const { redirect, loading } = this.state;   
     
     if (!isAdding && !redirect) {
       if (book.status === 401) {
@@ -60,8 +65,13 @@ class NewBook extends Component {
   }
 
   render() {
-    const { redirect } = this.state;
-
+    const { redirect , loading} = this.state;
+    const { category } = this.props;
+    console.log(category);
+   
+    if(loading){
+      return (<p>áfram</p>);
+    }
     if (redirect) {
       return (
         <div>
@@ -92,19 +102,14 @@ class NewBook extends Component {
           <div class="skraElement">
             <p>Flokkur:</p>
             <select ref={this.categoryInput}>
-              <option value="null">--Veljið flokk--</option>
-              <option value="Fiction">Fiction</option>
-              <option value="Fantacy">Fantacy</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="Design">Design</option>
-              <option value="Buisness">Buisness</option>
-              <option value="Economics">Economics</option>
-              <option value="Science Fiction">Science Fiction</option>
-              <option value="Comic">Comic</option>
-              <option value="Nonfiction">Nonfiction</option>
-              <option value="Graphic Novel">Graphic Novel</option>
-              <option value="Horror">Horror</option>
-              <option value="Psychology">Psychology</option>
+            <option value="null">--Veldu Flokk--</option>
+              {category[0].items.map((category) => {
+              return (
+              <option value={category.id}>
+                {category.title}
+              </option>
+              )
+            })}
             </select>
           </div>
           <div class="skraElement">
@@ -144,6 +149,7 @@ const mapStateToProps = (state) => {
     type: state.books.type,
     isAdding: state.books.isAdding,
     book: state.books.book,
+    category: state.books.category,
     error: state.books.error,
   }
   /* todo stilla redux ef það er notað */

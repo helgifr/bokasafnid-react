@@ -35,10 +35,10 @@ export const BOOKS_ADD_REQUEST = 'BOOKS_ADD_REQUEST';
 export const BOOKS_ADD_ERROR = 'BOOKS_ADD_ERROR';
 export const BOOKS_ADD_SUCCESS = 'BOOKS_ADD_SUCCESS';
 
-function addingBook(books) {
+function addingBook() {
   return {
     type: BOOKS_ADD_REQUEST,
-    isAdding: false,
+    isAdding: true,
     errors: null,
   }
 }
@@ -48,7 +48,8 @@ function addBooksError(errors) {
   
   return {
     type: BOOKS_ADD_ERROR,
-    isAdding: false,
+    isAdding: true,
+    book: [],
     errors,
   }
 }
@@ -59,6 +60,52 @@ function receiveAddBook(book) {
     isAdding: false,
     book,
     errors: null,
+  }
+}
+
+export const CATEGORY_REQUEST = 'CATEGORY_REQUEST';
+export const CATEGORY_ERROR = 'CATEGORY_ERROR';
+export const CATEGORY_SUCCESS = 'CATEGORY_SUCCESS';
+
+function requestCategory() {
+  return {
+    type: CATEGORY_REQUEST,
+    isFetching: true,
+    error: null,
+  }
+}
+
+function categoryError(error) {
+  return {
+    type: CATEGORY_ERROR,
+    isFetching: true,
+    books: [],
+    error: error,
+  }
+}
+
+function receiveCategory(category) {
+  return {
+    type: CATEGORY_SUCCESS,
+    isFetching: false,
+    category,
+    error: null,
+  }
+}
+
+export const fetchCategory = () => {
+  return async (dispatch) => {
+    dispatch(requestCategory());
+
+    let category;
+    try {
+      category = await api.get(`/categories?limit=100`) ;
+      console.log(category);
+      
+    } catch (e) {
+      return dispatch(categoryError(e))
+    }
+    dispatch(receiveCategory(category.result));
   }
 }
 
@@ -77,15 +124,14 @@ export const fetchBooks = (endpoint) => {
 }
 
 export const addBook = (title, isbn13, author, description, category, isbn10, published, pageCount, language) => {
-  category = 1;
-  console.log(author);
-    
   return async (dispatch) => {
     dispatch(addingBook());
 
     let book;
     try {
       book = await api.post('/books', { title, isbn13, author, description, category, isbn10, published, pageCount, language });
+      console.log(book);
+      
     } catch (e) {
       return dispatch(addBooksError([{ message: e }]))
     }
@@ -93,6 +139,7 @@ export const addBook = (title, isbn13, author, description, category, isbn10, pu
     if (book.status >= 400) {
       return dispatch(addBooksError(book.result))
     }
+    
     dispatch(receiveAddBook(book.result))
   }
 }
