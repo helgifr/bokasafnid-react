@@ -6,6 +6,8 @@ import Helmet from 'react-helmet';
 
 import { login } from '../../actions/auth';
 
+import Button from '../../components/button';
+
 /* todo sækja actions frá ./actions */
 
 import './Login.css';
@@ -31,10 +33,10 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isFetching, user, type, message } = this.props;
+    const { isFetching, isAuthenticated, type, message } = this.props;
 
     if (!isFetching) {
-      if (user) {
+      if (isAuthenticated) {
         this.setState({ redirect: true });
       }
     }
@@ -42,24 +44,35 @@ class Login extends Component {
 
   render() {
     const { redirect } = this.state;
-    const { message } = this.props;
+    const { message, location } = this.props;
 
     if (redirect) {
-      return <Redirect to="/" />
+      try {
+        const { pathname } = location.state.from;
+        return <Redirect to={pathname} />
+      } catch (e) {
+        return <Redirect to="/" />
+      }
     }
     return (
-      <div>
+      <div className="loginPage">
         <Helmet title='Innskráning' />
-        <p>Innskráning</p>
+        <h1 className="header__heading">Innskráning</h1>
         {message &&
           <p>{message.error}</p>
         }
-        <form onSubmit={this.submit}>
-          <input type="text" name="username" ref={this.usernameInput} />
-          <input type="password" name="password" ref={this.passwordInput}/>
-          <button>Submit</button>
+        <form onSubmit={this.submit} className="loginForm">
+          <div className="field">
+            <label htmlFor="username">Notendanafn: </label>
+            <input type="text" name="username" id="username" ref={this.usernameInput} />
+          </div>
+          <div className="field">
+            <label htmlFor="password">Lykilorð: </label>
+            <input type="password" name="password" id="password" ref={this.passwordInput}/>
+          </div>
+          <Button>Innskrá</Button>
         </form>
-        <p><Link to="/register">Nýskrá</Link></p>
+        <p><Link to="/register">Nýskráning</Link></p>
       </div>
     );
   }
@@ -69,7 +82,6 @@ const mapStateToProps = (state) => {
   return {
     isFetching: state.auth.isFetching,
     isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user,
     message: state.auth.message,
   }
 }
