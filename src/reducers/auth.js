@@ -3,7 +3,11 @@ import {
   LOGIN_ERROR,
   LOGIN_SUCCESS,
   LOGIN_LOGOUT,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_ERROR,
 } from '../actions/auth';
+
 
 const user = JSON.parse(localStorage.getItem('user') || 'null');
 
@@ -44,6 +48,25 @@ export default (state = initialState, action) => {
         ...state,
         isFetching: action.isFetching,
         isAuthenticated: action.isAuthenticated,
+        user: action.user,
+      };
+
+    case USER_UPDATE_REQUEST:
+      return {
+        ...state,
+        isFetchingUser: action.isFetching,
+      };
+
+    case USER_UPDATE_ERROR:
+      return {
+        ...state,
+        isFetchingUser: action.isFetching,
+      };
+
+     case USER_UPDATE_SUCCESS:
+      return {
+        ...state,
+        isFetchingUser: action.isFetching,
         user: action.user,
       };
 

@@ -8,12 +8,15 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../../actions/auth';
 import { fetchRead } from '../../actions/user';
-import { updateName } from '../../actions/user';
-import { updatePassword } from '../../actions/user';
+import { updateName } from '../../actions/auth';
+import { updatePassword } from '../../actions/auth';
 import queryString from 'query-string';
+
+import './Profile.css';
 
 import ReadBook from '../../components/readBooks';
 import Button from '../../components/button';
+import DeleteButton from '../../components/deleteButton';
 
 class Profile extends Component {
 
@@ -46,12 +49,17 @@ class Profile extends Component {
     );
   }
 
+  deleteBook(id){
+    console.log(id);
+    
+  }
+
   books(){
     const { loading } = this.state;
     const { books } = this.props;
 
     const qs = queryString.parse(this.props.location.search);
-    const { page = 1, query = '' } = qs;
+    const { page = 1} = qs;
 
     if (loading) {
       return (
@@ -59,26 +67,37 @@ class Profile extends Component {
       );
     }
 
-
     return (
       <section>
-        <h1>Lesnar bækur</h1>
+        <h1 className="title">Lesnar bækur</h1>
         <ul>
           {books.items.map((book) => {
             return (
-              <ReadBook
-                id={book.id}
-                title={book.title}
-                rating={book.rating}
-                review={book.review}
-              />
+              <div className="book">
+                <ReadBook
+                  key={book.id}
+                  id={book.id}
+                  title={book.title}
+                  rating={book.rating}
+                  review={book.review}
+                />
+                <DeleteButton className="delete-button" onClick={this.deleteBook(book.id)}> Eyða </DeleteButton>
+              </div>
             )
           })}
         </ul>
+        {page > 1 &&
+          <Link to={{pathname: "/profile", search: `?page=${Number(page) - 1}`}}><Button>{"<"} Til baka</Button></Link>
+        }
+        {books.items.length === 10 &&
+          <Link to={{pathname: "/profile", search: `?page=${Number(page) + 1}`}}><Button>Næsta síða ></Button></Link>
+        }
       </section>
     );
 
   }
+
+
 
   submitName = (e) => {
     e.preventDefault();
@@ -91,7 +110,7 @@ class Profile extends Component {
     e.preventDefault();
     const password1 = this.passwordInput1.current.value;
     const password2 = this.passwordInput2.current.value;
-    if(password1 === password2){
+    if(password1 != null && password1 === password2){
       const { dispatch } = this.props;
       dispatch(updatePassword(password1));
     }
@@ -112,13 +131,13 @@ class Profile extends Component {
 
 
     return (
-      <div>
         <form onSubmit={this.submitName}>
-          <p> Nafn: </p>
-          <input type="text" name="name" ref={this.nameInput} />
-          <button>Uppfæra nafn</button>
+          <div className="input">
+            <p className="toUpdate"> Nafn: </p>
+            <input className="textfield" type="text" name="name" ref={this.nameInput} />
+          </div>
+          <Button>Uppfæra nafn</Button>
         </form>
-      </div>
     );
 
   }
@@ -126,22 +145,39 @@ class Profile extends Component {
   updatePassword(){
 
     return (
-      <div>
-        <form onSubmit={this.submitPassword}>
-        <p> Lykilorð: </p>
-        <input type="password" name="password1" ref={this.passwordInput1}/>
-        <p> Lykilorð aftur: </p>
-        <input type="password" name="password2" ref={this.passwordInput2}/>
-          <button>Uppfæra lykilorð</button>
+        <form className="password-form" onSubmit={this.submitPassword}>
+        <div className="input">
+          <p className="toUpdate"> Lykilorð: </p>
+          <input className="textfield" type="password" name="password1" ref={this.passwordInput1}/>
+       </div>
+       <div className="input"> 
+          <p className="toUpdate"> Lykilorð aftur: </p>
+          <input className="textfield" type="password" name="password2" ref={this.passwordInput2}/>
+        </div>
+        <Button>Uppfæra lykilorð</Button>
         </form>
-      </div>
     );
 
   }
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    await dispatch(fetchRead(`?offset=${10 * (this.state.page - 1)}`));    this.setState({ loading: false });
+    const { page = 1} = this.state;
+    await dispatch(fetchRead(`?offset=${10 * (this.state.page - 1)}`));
+    this.setState({ loading: false });
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    const newqs = queryString.parse(this.props.location.search);
+    const { page = 1, query = '' } = newqs;
+
+    if (prevState.page !== page) {
+      const { dispatch } = this.props;
+      console.log(`?offset=${10 * (page - 1)}`);
+      this.setState({ loading: true, page });
+      await dispatch(fetchRead(`?offset=${10 * (page - 1)}`));
+      this.setState({ loading: false });
+    }
   }
 
   render() {
@@ -153,16 +189,15 @@ class Profile extends Component {
     let books = this.books();
 
     return (
-      <div>
+      <div className="profile">
         <section>
-        <h1>Upplýsingar</h1>
+        <h1 className="title">Upplýsingar</h1>
           {updateImage}
           {updateName}
           {updatePassword}
         </section>
         {books}
         <Helmet title="Síða mín" />
-        <p>Notendasíða</p>
       </div>
     );
   }
@@ -170,9 +205,10 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isFetching: state.user.isFetching,
+    isFetchingUser: state.user.isFetchingUser,
     books: state.user.books,
     error: state.user.error,
+    user: state.auth.user,
   }
 }
 
