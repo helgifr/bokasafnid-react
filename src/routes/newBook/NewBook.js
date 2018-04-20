@@ -93,12 +93,6 @@ class NewBook extends Component {
     
 
     if (!isAdding && !redirect) {
-<<<<<<< HEAD
-=======
-      console.log(isAdding, redirect);
-      
-
->>>>>>> origin/master
       if (book.status === 401) {
         this.handleErrors(errors);
       }

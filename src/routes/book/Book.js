@@ -55,7 +55,6 @@ class Book extends Component {
         {books.language !== "" &&
           <p>Tungumál: {books.language}</p>
         }
-<<<<<<< HEAD
         <div>
         <form className="reviewForm">
           <div className="field">
@@ -73,9 +72,6 @@ class Book extends Component {
             <Button onClick={this.read} className="read">Vista</Button>
           </form>
         </div>
-=======
-        <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
->>>>>>> origin/master
       </section>
     );
   }
