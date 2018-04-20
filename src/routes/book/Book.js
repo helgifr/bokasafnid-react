@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { fetchBooks } from '../../actions/books';
 import Helmet from 'react-helmet';
 
+import './Book.css';
+
 class Book extends Component {
 
   state = { loading: true };
@@ -17,7 +19,7 @@ class Book extends Component {
 
   render() {
 
-    const { books } = this.props;
+    const { books, match } = this.props;
     const { loading } = this.state;
 
     if (loading) {
@@ -27,9 +29,9 @@ class Book extends Component {
     }
 
     return (
-      <section>
+      <section className="book-info">
         <Helmet title={books.title} />
-        <p>{books.title}</p>
+        <p className="book-title">{books.title}</p>
         <p>Eftir {books.author}</p>
         <p>ISBN13: {books.isbn13}</p>
         <p>{books.categoryTitle}</p>
@@ -40,6 +42,7 @@ class Book extends Component {
         {books.language !== "" &&
           <p>Tungumál: {books.language}</p>
         }
+        <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
       </section>
     );
   }

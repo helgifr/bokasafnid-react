@@ -17,9 +17,8 @@ import Register from './routes/register';
 import Book from './routes/book';
 import NewBook from './routes/newBook';
 import Users from './routes/users';
-import UserPage from './routes/userPage'
-
-/* todo fleiri routes */
+import UserPage from './routes/userPage';
+import EditBook from './routes/editBook';
 
 import './App.css';
 
@@ -41,6 +40,7 @@ class App extends Component {
             <Route path="/books" exact component={Books} />
             <UserRoute path="/books/new" exact authenticated={authenticated} component={NewBook} />
             <UserRoute path="/books/:book" exact authenticated={authenticated} component={Book} />
+            <UserRoute path="/books/:book/edit" authenticated={authenticated} component={EditBook} />
             <UserRoute path="/profile" authenticated={authenticated} component={Profile} />
             <UserRoute path="/users" exact authenticated={authenticated} component={Users} />
             <UserRoute path="/users/:user" exact authenticated={authenticated} component={UserPage} />

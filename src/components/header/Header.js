@@ -39,6 +39,8 @@ class Header extends Component {
 
   render() {
     const { user } = this.props;
+    console.log(user);
+    
     let logged;
     if (user) {
       logged = this.signedIn(user);

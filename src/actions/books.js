@@ -45,6 +45,8 @@ function addingBook() {
 
 function addBooksError(errors) {
   console.log('errorhappening');
+  console.log(errors);
+  
   
   return {
     type: BOOKS_ADD_ERROR,
@@ -141,5 +143,26 @@ export const addBook = (title, isbn13, author, description, category, isbn10, pu
     }
     
     dispatch(receiveAddBook(book.result))
+  }
+}
+
+export const patchBook = (id, title, isbn13, author, description, category, isbn10, published, pageCount, language) => {
+  return async (dispatch) => {
+    dispatch(addingBook());
+    console.log(id, title, typeof isbn13);
+    
+
+    let book;
+    try {
+      book = await api.patch(`/books/${id}`, { title, isbn13, author, description, category, isbn10, published, pageCount, language });
+    } catch (e) {
+      return dispatch(addBooksError([{ message: e }]));
+    }
+
+    if (book.status >= 400) {
+      return dispatch(addBooksError(book.result));
+    }
+
+    dispatch(receiveAddBook(book.result));
   }
 }
