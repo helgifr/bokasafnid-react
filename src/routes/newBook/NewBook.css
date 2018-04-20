@@ -1,46 +1,33 @@
-.skraElement{
-    width: 50%;
-    display: flex;
-    flex-direction: row;
-    margin-left: 5%;
-    padding-top:0.25em;
-    padding-bottom:0.25em;
+.skraElement {
+  display: flex;
+  flex-direction: row;
+  padding-top:0.25em;
+  padding-bottom:0.25em;
 }
 
 .skraElement p {
-    min-width: 50%;
+  min-width: 35%;
 }
 
-.skraElement input{
-    min-width: 50%;
+.skraElement input {
+  min-width: 65%;
 }
 
-.skraElement select{
-    min-height: 3%;
-    min-width: 50%;
+.skraElement select {
+  min-height: 3%;
+  min-width: 65%;
 }
 
-h1{
-    padding: 2.5%;
+.lysing {
+  padding-top:0.25em;
+  padding-bottom:0.25em;
 }
 
-.lysing{
-    width: 50%;
-    margin-left: 5%;
-    padding-top:0.25em;
-    padding-bottom:0.25em;
+.lysing textarea {
+  height:150px;
+  width:100%;
 }
 
-.lysing textarea{
-    height:150px;
-    width:100%;
-}
-
-.vistaButton{
-    padding: 0.4em;
-    width: 15%;
-    font-size: 1.2em;
-    color: white;
-    background-color: #4e1d04;
-    border-radius: 10%;
+.new-book-form {
+  max-width: 700px;
 }

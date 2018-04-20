@@ -87,7 +87,7 @@ class Register extends Component {
     }
 
     return (
-      <div className="registerPage">
+      <div className="page">
         <Helmet title="Nýskráning" />
         <h1>Nýskráning</h1>
         <ul>

@@ -8,6 +8,8 @@ import Helmet from 'react-helmet';
 import Book from '../../components/book';
 import Button from '../../components/button';
 
+import './Books.css';
+
 class Books extends Component {
 
   state = {
@@ -72,8 +74,9 @@ class Books extends Component {
           })}
         </ul>
         {page > 1 &&
-          <Link to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&query=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
+          <Link className="book-back-button" to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&query=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
         }
+        <p className="page-number">Síða {page}</p>
         {books.items.length === 10 &&
           <Link to={{pathname: "/books", search: `?page=${Number(page) + 1}` + (query ? `&query=${query}` : '') }}><Button>Næsta síða ></Button></Link>
         }

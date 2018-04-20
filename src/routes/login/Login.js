@@ -55,7 +55,7 @@ class Login extends Component {
       }
     }
     return (
-      <div className="loginPage">
+      <div className="page">
         <Helmet title='Innskráning' />
         <h1 className="header__heading">Innskráning</h1>
         {message &&

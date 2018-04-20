@@ -7,6 +7,12 @@
   flex-wrap: wrap;
 }
 
+@media (max-width: 700px) {
+  .search-form {
+    display: none;
+  }
+}
+
 .search-form input {
   font-size: 1rem;
   padding: 5px;

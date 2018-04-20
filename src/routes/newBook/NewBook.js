@@ -8,6 +8,7 @@ import Helmet from 'react-helmet';
 
 import './NewBook.css';
 import { addBook, fetchCategory } from '../../actions/books';
+import Button from '../../components/button';
 
 class NewBook extends Component {
 
@@ -82,10 +83,10 @@ class NewBook extends Component {
     }
 
     return (
-      <div>
+      <div class="page">
         <Helmet title='Skrá bók' />
         <h1>Ný bók</h1>
-        <form>
+        <form className="new-book-form">
           <div class="skraElement">
             <p>Titill:</p>
             <input type="text" name="title" ref={this.titleInput}/>
@@ -134,7 +135,7 @@ class NewBook extends Component {
           </div>
           <p></p>
           <div class="skraElement">
-          <button onClick={this.submit} class="vistaButton">Vista</button>
+          <Button onClick={this.submit} className="vistaButton">Vista</Button>
           </div>
         </form>
       </div>
