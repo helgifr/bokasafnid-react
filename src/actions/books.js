@@ -44,12 +44,6 @@ function addingBook() {
 }
 
 function addBooksError(errors) {
-<<<<<<< HEAD
-  console.log('errorhappening');
-  console.log(errors);
-  
-=======
->>>>>>> b0058cac94f1670878009f99b5ce836c61dbffe5
   
   return {
     type: BOOKS_ADD_ERROR,
@@ -161,7 +155,7 @@ export const patchBook = (id, title, isbn13, author, description, category, isbn
     }
 
     if (book.status >= 400) {
-      return dispatch(addBooksError(book.result));
+      return dispatch(addBooksError(book.result.errors));
     }
 
     dispatch(receiveAddBook(book.result));
