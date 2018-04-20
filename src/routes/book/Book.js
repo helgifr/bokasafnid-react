@@ -52,6 +52,8 @@ class Book extends Component {
   }
 
   deleteBook(id){
+    console.log("fer í fallid");
+    
     const { dispatch } = this.props;
     dispatch(deleteRead(id));
     this.setState({ deleted: true })
@@ -66,15 +68,7 @@ class Book extends Component {
     
 
     if(review){
-      //console.log("This books ID:" + books.id);
-      
       for(var i = 0; i < review.items.length; i++){
-        console.log(review.items);
-        
-      
-       // console.log("Comparing " + review.items[i].book_id + " to " + books.id );
-      //  console.log("counter: " + i);
-        
         if(review.items[i].book_id === books.id){
         bookRev.push({
           rating: review.items[i].rating,
@@ -126,10 +120,6 @@ class Book extends Component {
             </select>
             <Button onClick={this.read} className="read">Skrá lesing</Button>
           </form>
-
-          <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
-
-        </div>
         </div>}
         {allReadyReview && <div>
         {(bookRev.map((rev) => {
@@ -138,6 +128,7 @@ class Book extends Component {
               <h1>Lesin bók</h1>
               <h3>einkunn: {rev.rating}</h3>
               <h3>Review:  {rev.revari}</h3>
+              <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
             </div>
           )
         }))}
