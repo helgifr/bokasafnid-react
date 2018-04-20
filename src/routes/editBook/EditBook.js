@@ -34,13 +34,10 @@ class EditBook extends Component {
   async componentDidMount() {
     const { dispatch, match } = this.props;
     const { book } = match.params;
-    console.log(book);
-    
 
     const category = await dispatch(fetchCategory());
     await dispatch(fetchBooks(`/${book}`))
-    console.log('hva');
-    
+
     this.setState({loading: false});
   }
 
@@ -65,8 +62,6 @@ class EditBook extends Component {
       this.languageInput.current.classList.remove('wrong-input');
       this.languageLabel.current.classList.remove('wrong-label');
 
-      console.log(errors);
-      
       errors.map((error) => {
         switch (error.field) {
           case 'title':
@@ -123,8 +118,7 @@ class EditBook extends Component {
     const language = this.languageInput.current.value;
     const { dispatch, match } = this.props;
     const { book } = match.params;
-    console.log(title, author, language, published, description);
-    
+
     dispatch(patchBook(book, title, isbn13, author, description, category, isbn10, published, pages, language));
   }
 
@@ -137,24 +131,22 @@ class EditBook extends Component {
   }
 
   render() {
-    const { redirect , loading} = this.state;
-    const { category, match, errors = [] } = this.props;
+    const { redirect , loading } = this.state;
+    const { category, match, errors = [], book } = this.props;
     
     this.handleErrors(errors);
-    
+
     if(loading) {
       return (<p>áfram</p>);
     }
     if (redirect) {
       return (
         <div>
-          <p>Tókst að breyta bók</p>
-          <p><Link to="/login">Innskráning</Link></p>
+          <p>Bók breytt</p>
+          <Link to={`/books/${book.id}`}>Skoða bók</Link>
         </div>
       );
     }
-
-    const { book } = this.props;
 
     return (
       <div className="page">
@@ -163,9 +155,9 @@ class EditBook extends Component {
         <ul>
         {(errors.map((error) => {
           return (
-          <li key={error.title}>
-            {error.message}
-          </li>
+            <li key={error.field} className="error-list">
+              {error.message}
+            </li>
           )
         }))}
         </ul>
@@ -218,7 +210,7 @@ class EditBook extends Component {
           <p></p>
           <div className="skraElement">
           <Button onClick={this.submit} className="vistaButton">Vista</Button>
-          <Link to={`/books/${book}`}><Button>Til baka</Button></Link>
+          <Link to={`/books/${match.params.book}`}><Button>Til baka</Button></Link>
           </div>
         </form>
       </div>

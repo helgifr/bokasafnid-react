@@ -99,8 +99,6 @@ export const fetchCategory = () => {
     let category;
     try {
       category = await api.get(`/categories?limit=100`) ;
-      console.log(category);
-      
     } catch (e) {
       return dispatch(categoryError(e))
     }
@@ -144,8 +142,6 @@ export const addBook = (title, isbn13, author, description, category, isbn10, pu
 export const patchBook = (id, title, isbn13, author, description, category, isbn10, published, pageCount, language) => {
   return async (dispatch) => {
     dispatch(addingBook());
-    console.log(id, title, typeof isbn13);
-    
 
     let book;
     try {

@@ -55,6 +55,7 @@ class Book extends Component {
         {books.language !== "" &&
           <p>Tungumál: {books.language}</p>
         }
+        <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
         <div>
         <form className="reviewForm">
           <div className="field">

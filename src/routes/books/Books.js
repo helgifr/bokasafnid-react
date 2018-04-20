@@ -59,7 +59,7 @@ class Books extends Component {
     return (
       <section>
         <Helmet title={`Bækur - síða ${page}`} />
-        <h1>Bækur</h1>
+        <h1>{query !== '' ? `Bókaleit: ${query}` : 'Bækur'}</h1>
         <ul>
           {books.items.map((book) => {
             return (
