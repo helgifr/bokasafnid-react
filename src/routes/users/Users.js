@@ -46,7 +46,7 @@ async componentDidUpdate(prevProps, prevState) {
     const { users } = this.props;
 
     const qs = queryString.parse(this.props.location.search);
-    const { page = 1} = qs;
+    const { page = 1 } = qs;
 
     if (loading) {
       return (
@@ -61,13 +61,11 @@ async componentDidUpdate(prevProps, prevState) {
         <ul>
           {users.items.map((user) => {
             return (
-              <ul className="user">
-                <User
-                  key={user.id}
-                  id={user.id}
-                  name={user.name}
-                />
-              </ul>
+              <User
+                key={user.id}
+                id={user.id}
+                name={user.name}
+              />
             )
           })}
         </ul>

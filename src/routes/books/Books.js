@@ -21,10 +21,7 @@ class Books extends Component {
   async componentDidMount() {
     const { dispatch } = this.props;
     const { page = 1, query = '' } = this.state;
-    console.log(page);
-    
-    console.log(`?offset=${10 * (page - 1)}&search=${query}`);
-    
+
     await dispatch(fetchBooks(`?offset=${10 * (page - 1)}&search=${query}`));
     this.setState({ loading: false });
   }
@@ -35,7 +32,6 @@ class Books extends Component {
 
     if (prevState.page !== page || prevState.query !== query) {
       const { dispatch } = this.props;
-      console.log(`?offset=${10 * (page - 1)}&search=${query}`);
       this.setState({ loading: true, page, query });
       await dispatch(fetchBooks(`?offset=${10 * (page - 1)}&search=${query}`));
       this.setState({ loading: false });
@@ -47,8 +43,6 @@ class Books extends Component {
     const { books } = this.props;
     const qs = queryString.parse(this.props.location.search);
     const { page = 1, query = '' } = qs;
-    console.log(query);
-    
 
     if (loading) {
       return (

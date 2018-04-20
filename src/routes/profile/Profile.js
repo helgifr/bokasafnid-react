@@ -56,7 +56,16 @@ class Profile extends Component {
     );
   }
 
+<<<<<<< HEAD
   books(){
+=======
+  deleteBook(id) {
+
+    
+  }
+
+  books() {
+>>>>>>> 93a0b2a25e898add60399d0d487442df8cbc241f
     const { loading } = this.state;
     const { books } = this.props;
 
@@ -75,15 +84,13 @@ class Profile extends Component {
         <ul>
           {books.items.map((book) => {
             return (
-              <div className="book">
-                <ReadBook
-                  key={book.id}
-                  id={book.id}
-                  title={book.title}
-                  rating={book.rating}
-                  review={book.review}
-                />
-              </div>
+              <ReadBook
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                rating={book.rating}
+                review={book.review}
+              />
             )
           })}
         </ul>
