@@ -47,7 +47,7 @@ class Profile extends Component {
     }
     return (
       <div className="user">
-        <img src={src} alt="profile picture" />
+        <img src={src} alt="profile" />
         <p className="name"> {name} </p>
         <div className="info">
 
@@ -181,14 +181,13 @@ class Profile extends Component {
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    const { page = 1 } = this.state;
     await dispatch(fetchRead(`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
   }
 
   async componentDidUpdate(prevProps, prevState) {
     const newqs = queryString.parse(this.props.location.search);
-    const { page = 1, query = '' } = newqs;
+    const { page = 1 } = newqs;
 
     if (prevState.page !== page) {
       const { dispatch } = this.props;
@@ -199,7 +198,6 @@ class Profile extends Component {
   }
 
   render() {
-    const user  = JSON.parse(window.localStorage.getItem("user"));
     let updateImage = this.updateImage();
     let updateName = this.updateName();
     let updatePassword = this.updatePassword();
