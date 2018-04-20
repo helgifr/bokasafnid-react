@@ -44,7 +44,6 @@ function addingBook() {
 }
 
 function addBooksError(errors) {
-  console.log('errorhappening');
   
   return {
     type: BOOKS_ADD_ERROR,
@@ -130,14 +129,12 @@ export const addBook = (title, isbn13, author, description, category, isbn10, pu
     let book;
     try {
       book = await api.post('/books', { title, isbn13, author, description, category, isbn10, published, pageCount, language });
-      console.log(book);
-      
     } catch (e) {
       return dispatch(addBooksError([{ message: e }]))
     }
 
     if (book.status >= 400) {
-      return dispatch(addBooksError(book.result))
+      return dispatch(addBooksError(book.result.errors))
     }
     
     dispatch(receiveAddBook(book.result))

@@ -46,20 +46,59 @@ class NewBook extends Component {
     dispatch(addBook(title, isbn13, author, description, category, isbn10, published, pages, language));
   }
 
+  handleErrors = (errors) => {
+    if(errors.length > 0){
+
+      this.titleInput.current.classList.remove('wrong-input');
+      this.titleInput.current.classList.remove('wrong-label');
+      this.categoryInput.current.classList.remove('wrong-input');
+      this.categoryInput.current.classList.remove('wrong-label');
+      this.isbn10Input.current.classList.remove('wrong-input');
+      this.isbn10Input.current.classList.remove('wrong-label');
+      this.isbn13Input.current.classList.remove('wrong-input');
+      this.isbn13Input.current.classList.remove('wrong-label');
+      this.languageInput.current.classList.remove('wrong-input');
+      this.languageInput.current.classList.remove('wrong-label');
+
+      errors.map((error) => {
+        
+        if (error.field === this.titleInput.current.name) {
+          this.titleInput.current.classList.add("wrong-input");
+          this.titleInput.current.classList.add('wrong-label');
+        } 
+        if (error.field === this.categoryInput.current.name) {
+          this.categoryInput.current.classList.add("wrong-input");
+          this.categoryInput.current.classList.add('wrong-label');
+        } 
+        if (error.field === this.isbn10Input.current.name) {
+          this.isbn10Input.current.classList.add("wrong-input");
+          this.isbn10Input.current.classList.add('wrong-label');
+        }
+        if (error.field === this.isbn13Input.current.name) {
+          this.isbn13Input.current.classList.add("wrong-input");
+          this.isbn13Input.current.classList.add('wrong-label');
+        }
+        if (error.field === this.languageInput.current.id) {
+          this.languageInput.current.classList.add("wrong-input");
+          this.languageInput.current.classList.add('wrong-label');
+        }
+      });
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
-    const { isAdding, book, type, category } = this.props;
-    const { redirect, loading } = this.state;   
+    const { isAdding, book, type, category, errors } = this.props;
+    const { redirect, loading } = this.state;
     
     if (!isAdding && !redirect) {
+
       if (book.status === 401) {
-        console.log('Wrong info');
+        this.handleErrors(errors);
       } 
       if(book.status === 400){
-        console.log(book.result.error);
+        this.handleErrors(errors);
       }
         else {
-        console.log('Tókst ad skra bók');
-        
         this.setState({ redirect: true });
       }
     }
@@ -67,12 +106,14 @@ class NewBook extends Component {
 
   render() {
     const { redirect , loading} = this.state;
-    const { category } = this.props;
-    console.log(category);
-   
+    const { category, errors = [] } = this.props;
+    
+    this.handleErrors(errors);
+
     if(loading){
       return (<p>áfram</p>);
     }
+
     if (redirect) {
       return (
         <div>
@@ -84,6 +125,17 @@ class NewBook extends Component {
 
     return (
       <div class="page">
+        <div class="errorMessage">
+        <ul>
+        {(errors.map((error) => {
+          return (
+          <li>
+            <h3>{error.message}</h3>
+          </li>
+          )
+        }))}
+        </ul>
+      </div>
         <Helmet title='Skrá bók' />
         <h1>Ný bók</h1>
         <form className="new-book-form">
@@ -91,19 +143,19 @@ class NewBook extends Component {
             <p>Titill:</p>
             <input type="text" name="title" ref={this.titleInput}/>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Höfundur:</p>
             <input type="text" name="author" ref={this.authorInput}/>
           </div>
-          <div class="lysing">
+          <div className="lysing">
             <p>Lýsing:</p>
             <textarea rows="4" cols="50" name="description" ref={this.descriptionInput}>
             </textarea>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Flokkur:</p>
-            <select ref={this.categoryInput}>
-            <option value="null">--Veldu Flokk--</option>
+            <select ref={this.categoryInput} name="category">
+            <option>--Veldu Flokk--</option>
               {category[0].items.map((category) => {
               return (
               <option value={category.id}>
@@ -113,28 +165,28 @@ class NewBook extends Component {
             })}
             </select>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>ISBN10:</p>
             <input type="text"name="isbn10" ref={this.isbn10Input}/>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>ISBN13:</p>
             <input type="text"name="isbn13" ref={this.isbn13Input}/>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Útgefin:</p>
             <input type="text"name="published" ref={this.publishedInput}/>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Fjöldi Síðna:</p>
             <input type="text"name="pages" ref={this.pagesInput}/>
           </div>
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Tungumál:</p>
             <input type="text"name="language" ref={this.languageInput}/>
           </div>
           <p></p>
-          <div class="skraElement">
+          <div className="skraElement">
           <Button onClick={this.submit} className="vistaButton">Vista</Button>
           </div>
         </form>
@@ -151,7 +203,7 @@ const mapStateToProps = (state) => {
     isAdding: state.books.isAdding,
     book: state.books.book,
     category: state.books.category,
-    error: state.books.error,
+    errors: state.books.errors,
   }
   /* todo stilla redux ef það er notað */
 }
