@@ -89,12 +89,20 @@ class NewBook extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { isAdding, book, type, category, errors } = this.props;
     const { redirect, loading } = this.state;
+    console.log(isAdding);
     
+
     if (!isAdding && !redirect) {
+<<<<<<< HEAD
+=======
+      console.log(isAdding, redirect);
+      
+
+>>>>>>> origin/master
       if (book.status === 401) {
         this.handleErrors(errors);
-      } 
-      if(book.status === 400){
+      }
+      if(book.status === 400) {
         this.handleErrors(errors);
       }
         else {

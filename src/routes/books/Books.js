@@ -74,7 +74,7 @@ class Books extends Component {
           })}
         </ul>
         {page > 1 &&
-          <Link className="book-back-button" to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&query=${query}` : '') }}><Button>{"<"} Til baka</Button></Link>
+          <Link className="book-back-button" to={{pathname: "/books", search: `?page=${Number(page) - 1}` + (query ? `&query=${query}` : '') }}><Button>{"<"} Fyrri síða</Button></Link>
         }
         <p className="page-number">Síða {page}</p>
         {books.items.length === 10 &&
