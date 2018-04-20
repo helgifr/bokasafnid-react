@@ -56,16 +56,7 @@ class Profile extends Component {
     );
   }
 
-<<<<<<< HEAD
   books(){
-=======
-  deleteBook(id) {
-
-    
-  }
-
-  books() {
->>>>>>> 93a0b2a25e898add60399d0d487442df8cbc241f
     const { loading } = this.state;
     const { books } = this.props;
 
