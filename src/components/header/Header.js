@@ -10,6 +10,7 @@ import './Header.css';
 import { logoutUser } from '../../actions/auth';
 
 class Header extends Component {
+  state = { loading: true };
 
   signOut = (e) => {
     const { dispatch } = this.props;
@@ -39,6 +40,8 @@ class Header extends Component {
 
   render() {
     const { user } = this.props;
+    console.log(user);
+    
     let logged;
     if (user) {
       logged = this.signedIn(user);

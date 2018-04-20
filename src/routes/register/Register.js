@@ -75,7 +75,6 @@ class Register extends Component {
     const { redirect } = this.state;
     const { errors = [] } = this.props;
     console.log(errors);
-    
 
     if (redirect) {
       return (
@@ -90,7 +89,7 @@ class Register extends Component {
       <div className="page">
         <Helmet title="Nýskráning" />
         <h1>Nýskráning</h1>
-        <ul>
+        <ul className="error-list">
           {errors.map((error) => {
             return (<li key={error.field}>{error.message}</li>);
           })}
