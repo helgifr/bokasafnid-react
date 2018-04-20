@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../../actions/allUsers';
+import { fetchReadUser } from '../../actions/user';
 import Helmet from 'react-helmet';
+
+import './userPage.css';
+
+import ReadBook from '../../components/readBooks';
+import queryString from 'query-string';
+import Button from '../../components/button';
 
 class UserPage extends Component {
 
@@ -20,22 +27,79 @@ class UserPage extends Component {
       <div className="user">
         <img src={src} alt="profile picture" />
         <p className="name"> {name} </p>
-        <div className="info">
-
-        </div>
       </div>
     );
   }
 
+  books(){
+    const { match } = this.props;
+    const { loading } = this.state;
+    const { books } = this.props;
+    const { user } = match.params;
+    console.log(user);
+    
+    const qs = queryString.parse(this.props.location.search);
+    const { page = 1} = qs;
+
+    if (loading) {
+      return (
+        <p>Sæki bækur...</p>
+      );
+    }
+    return (
+      <section>
+        <h1 className="title">Lesnar bækur</h1>
+        <ul>
+          {books.items.map((book) => {
+            return (
+              <div className="book">
+                <ReadBook
+                  key={book.id}
+                  id={book.id}
+                  title={book.title}
+                  rating={book.rating}
+                  review={book.review}
+                />
+              </div>
+            )
+          })}
+        </ul>
+        {page > 1 &&
+          <Link to={{pathname: `/users/${user}`, search: `?page=${Number(page) - 1}`}}><Button>{"<"} Til baka</Button></Link>
+        }
+        {books.items.length === 10 &&
+          <Link to={{pathname: `/users/${user}`, search: `?page=${Number(page) + 1}`}}><Button>Næsta síða ></Button></Link>
+        }
+      </section>
+    );
+
+  }
 
   
 
   async componentDidMount() {
     const { dispatch, match } = this.props;
     const { user } = match.params;
+    const { page = 1} = this.state;
     await dispatch(fetchUsers(user));
+    await dispatch(fetchReadUser(user,`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
   }
+
+  async componentDidUpdate(prevProps, prevState) {
+    const { match } = this.props;
+    const newqs = queryString.parse(this.props.location.search);
+    const { page = 1, query = '' } = newqs;
+    const { user } = match.params;
+    if (prevState.page !== page) {
+      const { dispatch } = this.props;
+      console.log(`?offset=${10 * (page - 1)}`);
+      this.setState({ loading: true, page });
+      await dispatch(fetchReadUser(user,`?offset=${10 * (page - 1)}`));
+      this.setState({ loading: false });
+    }
+  }
+
 
   render() {
 
@@ -49,10 +113,13 @@ class UserPage extends Component {
     }
 
     return (
-      <section>
-        <Helmet title={user.name} />
-        {this.info(user)}
-      </section>
+      <div className="userPage">
+        <section>
+          <Helmet title={user.name} />
+          {this.info(user)}
+          {this.books()}
+        </section>
+      </div>
     );
   }
 }
@@ -62,6 +129,9 @@ const mapStateToProps = (state) => {
     isFetching: state.allUsers.isFetching,
     user: state.allUsers.users,
     error: state.allUsers.error,
+    isFetchingBooks: state.user.isFetching,
+    books: state.user.books,
+    booksError: state.user.error,
   }
 }
 

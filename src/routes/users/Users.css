@@ -28,18 +28,3 @@
 .book__header{
     font-weight: bold;
 }
-
-.delete-button{
-    color: blue;
-    background-color: darkred;
-    margin-bottom: 1.5em;
-}
-
-.delete-button:hover{
-    background-color: rgb(82, 2, 2);
-}
-
-button:hover{
-    background-color: #381504;
-}
-
