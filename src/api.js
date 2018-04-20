@@ -59,7 +59,7 @@ async function postImg(endpoint, data) {
   const options = {
     body: data,
     headers: {
-
+      'enctype': 'multipart/form-data'
     },
     method: 'POST',
   };

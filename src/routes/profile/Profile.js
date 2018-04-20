@@ -62,11 +62,6 @@ class Profile extends Component {
     );
   }
 
-  deleteBook(id){
-
-    
-  }
-
   books(){
     const { loading } = this.state;
     const { books } = this.props;
@@ -94,7 +89,6 @@ class Profile extends Component {
                   rating={book.rating}
                   review={book.review}
                 />
-                <DeleteButton className="delete-button" onClick={this.deleteBook(book.id)}> Eyða </DeleteButton>
               </div>
             )
           })}

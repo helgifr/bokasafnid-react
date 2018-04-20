@@ -43,3 +43,18 @@ export const fetchUsers = (id) => {
       dispatch(receiveUsers(users.result));
     }
   }
+
+export const fetchUsersPage = (endpoint) => {
+  return async (dispatch) => {
+    dispatch(requestUsers());
+
+    let users;
+    try {
+      users = await api.get(`/users${endpoint}`);
+    } catch (e) {
+      return dispatch(usersError(e))
+    }
+    dispatch(receiveUsers(users.result));
+  }
+}
+
