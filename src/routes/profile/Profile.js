@@ -31,12 +31,6 @@ class Profile extends Component {
     this.onImageSubmit = this.onImageSubmit.bind(this)
     this.onImageChange = this.onImageChange.bind(this)
   }
-
-  /*state = {
-    loading: true,
-    page: queryString.parse(this.props.location.search).page,
-    file : null,
-  }*/
   
   nameInput = React.createRef();
 
@@ -62,16 +56,7 @@ class Profile extends Component {
     );
   }
 
-<<<<<<< HEAD
   books(){
-=======
-  deleteBook(id) {
-
-    
-  }
-
-  books() {
->>>>>>> e811fb20a92cb87d5b0888f62a994b0e7850e78f
     const { loading } = this.state;
     const { books } = this.props;
 
