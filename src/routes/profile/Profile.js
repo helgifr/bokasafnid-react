@@ -50,7 +50,7 @@ class Profile extends Component {
   }
 
   deleteBook(id){
-    console.log(id);
+
     
   }
 
@@ -102,6 +102,7 @@ class Profile extends Component {
   submitName = (e) => {
     e.preventDefault();
     const name = this.nameInput.current.value;
+    this.nameInput.current.value = "";
     const { dispatch } = this.props;
     dispatch(updateName(name));
   }
@@ -110,6 +111,8 @@ class Profile extends Component {
     e.preventDefault();
     const password1 = this.passwordInput1.current.value;
     const password2 = this.passwordInput2.current.value;
+    this.passwordInput1.current.value = "";
+    this.passwordInput2.current.value = "";
     if(password1 != null && password1 === password2){
       const { dispatch } = this.props;
       dispatch(updatePassword(password1));
@@ -122,13 +125,16 @@ class Profile extends Component {
 
     return (
       <div>
+        <form>
+        <input className="textfield" type="file" name="name" ref={this.nameInput} />
+          <button>Senda</button>
+        </form>
       </div>
     );
 
   }
 
   updateName(){
-
 
     return (
         <form onSubmit={this.submitName}>

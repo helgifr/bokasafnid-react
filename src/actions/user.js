@@ -43,3 +43,17 @@ export const fetchRead = (endpoint) => {
       dispatch(receiveReadBooks(books.result));
     }
   }
+
+export const fetchReadUser = (id, endpoint) => {
+  return async (dispatch) => {
+    dispatch(requestReadBooks());
+
+    let books;
+    try {
+      books = await api.get(`/users/${id}/read${endpoint}`);
+    } catch (e) {
+      return dispatch(readBooksError(e))
+    }
+    dispatch(receiveReadBooks(books.result));
+  }
+}
