@@ -28,7 +28,7 @@ class ReadBooks extends Component {
 
     if(this.state.deleted){
       return (
-      <p>Bók eytt </p>
+      <p>Lestri eytt </p>
       )
     }
     

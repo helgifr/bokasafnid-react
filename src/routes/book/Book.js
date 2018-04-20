@@ -6,11 +6,17 @@ import { addReview } from '../../actions/review';
 import Helmet from 'react-helmet';
 import Button from '../../components/button';
 
+import { deleteRead } from '../../actions/user';
+import DeleteButton from '../../components/deleteButton';
+
 import './Book.css';
 
 class Book extends Component {
 
-  state = { loading: true };
+  state = {
+    loading: true,
+    deleted: false,
+    };
 
   reviewInput = React.createRef();
   gradeInput = React.createRef();
@@ -30,14 +36,20 @@ class Book extends Component {
     dispatch(addReview(bookId, rating, reviewInput));
   }
 
+  deleteBook(id){
+    const { dispatch } = this.props;
+    dispatch(deleteRead(id));
+    this.setState({ deleted: true })
+  }
+
   render() {
 
     const { books, match } = this.props;
     const { loading } = this.state;
-
+    
     if (loading) {
       return (
-        <p>Sæki bækur...</p>
+        <p>Sæki bók...</p>
       );
     }
 
@@ -72,6 +84,9 @@ class Book extends Component {
             </select>
             <Button onClick={this.read} className="read">Skrá lesing</Button>
           </form>
+
+          <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
+
         </div>
       </section>
     );
@@ -83,6 +98,8 @@ const mapStateToProps = (state) => {
     isFetching: state.books.isFetching,
     books: state.books.books,
     error: state.books.error,
+    isDeleting: state.user.isDeleting,
+    deleteError: state.user.error,
   }
 }
 
