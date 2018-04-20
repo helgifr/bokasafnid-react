@@ -209,15 +209,13 @@ export const updateImage = (image) => {
     dispatch(requestUpdate());
 
     let update;
-    let data = {};
-    data['profile'] = image;
     try {
-      update = await api.postImg(`/users/me/profile`, data);
+      update = await api.postImg(`/users/me/profile`, image);
     } catch (e) {
-      console.log(e);
-      return dispatch(updateError(e))
+      return dispatch(updateError(e));
     }
-    console.log(update);
+
+    localStorage.setItem('user', JSON.stringify(update.result));
     dispatch(receiveUpdate(update.result));
   }
 }
@@ -227,7 +225,7 @@ export const updateName = (name) => {
     dispatch(requestUpdate());
 
     let update;
-    const data = {name};
+    const data = { name };
     
     try {
       update = await api.patch(`/users/me`, data);
