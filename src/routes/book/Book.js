@@ -70,7 +70,7 @@ class Book extends Component {
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
-            <Button onClick={this.read} className="read">Vista</Button>
+            <Button onClick={this.read} className="read">Skrá lesing</Button>
           </form>
         </div>
       </section>

@@ -8,6 +8,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../../actions/auth';
 import { fetchRead } from '../../actions/user';
+import { updateImage } from '../../actions/auth';
 import { updateName } from '../../actions/auth';
 import { updatePassword } from '../../actions/auth';
 import queryString from 'query-string';
@@ -20,11 +21,23 @@ import DeleteButton from '../../components/deleteButton';
 
 class Profile extends Component {
 
-  state = {
-    loading: true,
-    page: queryString.parse(this.props.location.search).page,
+  constructor(props) {
+    super(props);
+    this.state ={
+      loading: true,
+      page: queryString.parse(this.props.location.search).page,
+      file : null,
+    }
+    this.onImageSubmit = this.onImageSubmit.bind(this)
+    this.onImageChange = this.onImageChange.bind(this)
   }
 
+  /*state = {
+    loading: true,
+    page: queryString.parse(this.props.location.search).page,
+    file : null,
+  }*/
+  
   nameInput = React.createRef();
 
   passwordInput1 = React.createRef();
@@ -117,17 +130,32 @@ class Profile extends Component {
       const { dispatch } = this.props;
       dispatch(updatePassword(password1));
     }
+  }
 
+  onImageSubmit(e){
+    e.preventDefault() // Stop form submit
+    const image = this.state.file;
+    console.log(image);
+    if(image != null){
+      const { dispatch } = this.props;
+      dispatch(updateImage(image));
+    }
+  }
+
+  onImageChange(e){
+    this.setState({file: e.target.files[0]}, function () {
+      
+    });
   }
 
   updateImage(){
 
-
     return (
       <div>
-        <form>
-        <input className="textfield" type="file" name="name" ref={this.nameInput} />
-          <button>Senda</button>
+        <form enctype="multipart/form-data" onSubmit={this.onImageSubmit}>
+          <h1>Breyta mynd</h1>
+          <input type="file" onChange={this.onImageChange} />
+          <Button type="submit">Hlaða upp</Button>
         </form>
       </div>
     );
@@ -179,7 +207,6 @@ class Profile extends Component {
 
     if (prevState.page !== page) {
       const { dispatch } = this.props;
-      console.log(`?offset=${10 * (page - 1)}`);
       this.setState({ loading: true, page });
       await dispatch(fetchRead(`?offset=${10 * (page - 1)}`));
       this.setState({ loading: false });
