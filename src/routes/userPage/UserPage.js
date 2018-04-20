@@ -27,6 +27,9 @@ class UserPage extends Component {
     );
   }
 
+
+  
+
   async componentDidMount() {
     const { dispatch, match } = this.props;
     const { user } = match.params;
