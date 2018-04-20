@@ -75,6 +75,7 @@ class Profile extends Component {
             return (
               <div className="book">
                 <ReadBook
+                  key={book.id}
                   id={book.id}
                   title={book.title}
                   rating={book.rating}
