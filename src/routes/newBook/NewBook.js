@@ -93,9 +93,6 @@ class NewBook extends Component {
     
 
     if (!isAdding && !redirect) {
-      console.log(isAdding, redirect);
-      
-
       if (book.status === 401) {
         this.handleErrors(errors);
       }
