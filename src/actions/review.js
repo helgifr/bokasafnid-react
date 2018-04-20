@@ -15,7 +15,7 @@ function addingReview() {
 function addingreviewError(error) {
   return {
     type: REVIEW_ERROR,
-    isReviewing: true,
+    isReviewing: false,
     review: [],
     error: error,
   }
@@ -31,19 +31,35 @@ function receiveReview(review) {
 }
 
 export const addReview = (bookId, rating, review) => {
-    return async (dispatch) => {
+  let reviewResult; 
+  return async (dispatch) => {
       dispatch(addingReview());
-      let reviewResult;
       try {
-        reviewResult = await api.post('/users/me/read', { bookId, rating, review});        
+        reviewResult = await api.post('/users/me/read', { bookId, rating, review});          
       } catch (e) {
         return dispatch(addingreviewError([{ message: e }]))
       }
-  
       if (review.status >= 400) {
         return dispatch(addingreviewError(review.result.errors))
       }
-      
+      //console.log(reviewResult);
       dispatch(receiveReview(review.result))
     }
   }
+
+  export const getReview = () => {
+    let reviewResult; 
+
+    return async (dispatch) => {
+        dispatch(addingReview());
+        try {
+          reviewResult = await api.get(`/users/me/read`);          
+        } catch (e) {
+          return dispatch(addingreviewError([{ message: e }]))
+        }
+        if (reviewResult.status >= 400) {
+          return dispatch(addingreviewError(reviewResult.errors))
+        }
+        dispatch(receiveReview(reviewResult.result))
+      }
+    }

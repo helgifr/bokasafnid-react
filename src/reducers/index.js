@@ -4,6 +4,7 @@ import register from './register'
 import books from './books';
 import user from './user';
 import allUsers from './allUsers';
+import review from './review';
 
 export default combineReducers({
   auth,
@@ -11,4 +12,5 @@ export default combineReducers({
   books,
   user,
   allUsers,
+  review,
 })
