@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../../actions/allUsers';
+import PropTypes from 'prop-types';
 import { fetchReadUser } from '../../actions/user';
 import Helmet from 'react-helmet';
 
@@ -15,6 +16,12 @@ class UserPage extends Component {
 
   state = { loading: true };
 
+  static propTypes = {
+    books: PropTypes.object,
+    user: PropTypes.object,
+    dispatch: PropTypes.func,
+  }
+
   info(user) {
     const { name, image } = user;
     let src;
@@ -24,8 +31,8 @@ class UserPage extends Component {
       src = "/profile.jpg";
     }
     return (
-      <div className="user">
-        <img src={src} alt="profile picture" />
+      <div className="user-page">
+        <img src={src} alt="profile" />
         <p className="name"> {name} </p>
       </div>
     );
@@ -36,10 +43,9 @@ class UserPage extends Component {
     const { loading } = this.state;
     const { books } = this.props;
     const { user } = match.params;
-    console.log(user);
-    
+
     const qs = queryString.parse(this.props.location.search);
-    const { page = 1} = qs;
+    const { page = 1 } = qs;
 
     if (loading) {
       return (
@@ -52,15 +58,13 @@ class UserPage extends Component {
         <ul>
           {books.items.map((book) => {
             return (
-              <div className="book">
-                <ReadBook
-                  key={book.id}
-                  id={book.id}
-                  title={book.title}
-                  rating={book.rating}
-                  review={book.review}
-                />
-              </div>
+              <ReadBook
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                rating={book.rating}
+                review={book.review}
+              />
             )
           })}
         </ul>
@@ -80,7 +84,6 @@ class UserPage extends Component {
   async componentDidMount() {
     const { dispatch, match } = this.props;
     const { user } = match.params;
-    const { page = 1} = this.state;
     await dispatch(fetchUsers(user));
     await dispatch(fetchReadUser(user,`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
@@ -89,11 +92,10 @@ class UserPage extends Component {
   async componentDidUpdate(prevProps, prevState) {
     const { match } = this.props;
     const newqs = queryString.parse(this.props.location.search);
-    const { page = 1, query = '' } = newqs;
+    const { page = 1 } = newqs;
     const { user } = match.params;
     if (prevState.page !== page) {
       const { dispatch } = this.props;
-      console.log(`?offset=${10 * (page - 1)}`);
       this.setState({ loading: true, page });
       await dispatch(fetchReadUser(user,`?offset=${10 * (page - 1)}`));
       this.setState({ loading: false });

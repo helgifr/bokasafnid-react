@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchBooks } from '../../actions/books';
-import { addReview } from '../../actions/review';
+import { addReview, getReview } from '../../actions/review';
 import Helmet from 'react-helmet';
 import Button from '../../components/button';
 
@@ -18,20 +19,34 @@ class Book extends Component {
     deleted: false,
     };
 
+  static propTypes = {
+    dispatch: PropTypes.func,
+    match: PropTypes.object,
+    books: PropTypes.object,
+    review: PropTypes.object,
+  }
+
   reviewInput = React.createRef();
   gradeInput = React.createRef();
 
   async componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch, match} = this.props;
     const { book } = match.params;
     await dispatch(fetchBooks(`/${book}`));
+    await dispatch(getReview());
+    
     this.setState({ loading: false });
   }
 
-  read = (e) => {
+  async componentDidUpdate(prevProps, prevState) {
+    const { dispatch} = this.props;
+    await dispatch(getReview());
+  }
+
+    read = (e) => {
     const { books, dispatch, review = [] } = this.props;
     const reviewInput = this.reviewInput.current.value;
-    const rating = parseInt(this.gradeInput.current.value);
+    const rating = parseInt(this.gradeInput.current.value, 10);
     const bookId = books.id;
     dispatch(addReview(bookId, rating, reviewInput));
   }
@@ -44,9 +59,36 @@ class Book extends Component {
 
   render() {
 
-    const { books, match } = this.props;
+    const { books, match, review} = this.props;
     const { loading } = this.state;
+    const bookRev = [];
+    let allReadyReview = false;
     
+
+    if(review){
+      //console.log("This books ID:" + books.id);
+      
+      for(var i = 0; i < review.items.length; i++){
+        console.log(review.items);
+        
+      
+       // console.log("Comparing " + review.items[i].book_id + " to " + books.id );
+      //  console.log("counter: " + i);
+        
+        if(review.items[i].book_id === books.id){
+        bookRev.push({
+          rating: review.items[i].rating,
+          revari: review.items[i].review,
+        });
+        }
+      }
+    }
+    
+    if(bookRev.length > 0){
+      allReadyReview = true;
+    }
+    
+
     if (loading) {
       return (
         <p>Sæki bók...</p>
@@ -68,7 +110,7 @@ class Book extends Component {
           <p>Tungumál: {books.language}</p>
         }
         <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
-        <div>
+        {!allReadyReview && <div>
         <form className="reviewForm">
           <div className="field">
             <p>Review</p>
@@ -88,6 +130,18 @@ class Book extends Component {
           <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
 
         </div>
+        </div>}
+        {allReadyReview && <div>
+        {(bookRev.map((rev) => {
+          return (
+            <div>
+              <h1>Lesin bók</h1>
+              <h3>einkunn: {rev.rating}</h3>
+              <h3>Review:  {rev.revari}</h3>
+            </div>
+          )
+        }))}
+        </div>}
       </section>
     );
   }
@@ -100,6 +154,7 @@ const mapStateToProps = (state) => {
     error: state.books.error,
     isDeleting: state.user.isDeleting,
     deleteError: state.user.error,
+    review: state.review.review,
   }
 }
 

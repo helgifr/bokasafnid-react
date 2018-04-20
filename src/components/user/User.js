@@ -7,6 +7,11 @@ import './User.css';
 
 export default class User extends Component {
 
+  static propTypes = {
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }
+
 
   render() {
     const { id, name } = this.props;

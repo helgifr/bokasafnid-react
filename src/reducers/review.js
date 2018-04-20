@@ -23,7 +23,7 @@ import {
         return {
           ...state,
           isReviewing: action.isReviewing,
-          result: action.result,
+          result: action.review,
           errors: action.errors,
         };
   
@@ -31,7 +31,7 @@ import {
         return {
           ...state,
           isReviewing: action.isReviewing,
-          result: action.result,
+          review: action.review,
           error: action.error,
         };
   

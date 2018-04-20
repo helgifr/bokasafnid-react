@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { Route, NavLink, Link, Switch, withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import { Route, Switch, withRouter } from 'react-router-dom'
 
 import UserRoute from './components/user-route';
 import Header from './components/header';
-
-import { checkAuth } from './actions/auth';
 
 import Home from './routes/home';
 import Login from './routes/login';
@@ -23,6 +22,10 @@ import EditBook from './routes/editBook';
 import './App.css';
 
 class App extends Component {
+  static propTypes = {
+    authenticated: PropTypes.bool,
+  }
+
   render() {
     const authenticated = this.props.isAuthenticated;
 

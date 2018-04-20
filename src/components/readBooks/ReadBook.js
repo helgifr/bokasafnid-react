@@ -14,6 +14,13 @@ class ReadBooks extends Component {
     deleted: false,
   }
 
+  static propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    rating: PropTypes.number,
+    review: PropTypes.string,
+  }
+
   deleteBook(id){
     const { dispatch } = this.props;
     dispatch(deleteRead(id));

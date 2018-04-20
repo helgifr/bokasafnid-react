@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect, withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
 import { login } from '../../actions/auth';
 
@@ -15,6 +16,14 @@ import './Login.css';
 class Login extends Component {
 
   state = { redirect: false };
+
+  static propTypes = {
+    isFetching: PropTypes.bool,
+    location: PropTypes.object,
+    message: PropTypes.array,
+    isAuthenticated: PropTypes.bool,
+    dispatch: PropTypes.func,
+  }
 
   usernameInput = React.createRef();
 
@@ -33,7 +42,7 @@ class Login extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isFetching, isAuthenticated, type, message } = this.props;
+    const { isFetching, isAuthenticated } = this.props;
 
     if (!isFetching) {
       if (isAuthenticated) {

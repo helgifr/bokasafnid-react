@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
 /* todo sækja actions frá ./actions */
 
@@ -12,7 +13,15 @@ import Button from '../../components/button';
 
 class NewBook extends Component {
 
-  state = { redirect : false, loading:true};
+  state = { redirect : false, loading: true };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    isAdding: PropTypes.bool,
+    book: PropTypes.array,
+    category: PropTypes.array,
+    errors: PropTypes.array,
+  }
 
   titleInput = React.createRef();
   authorInput = React.createRef();
@@ -27,7 +36,7 @@ class NewBook extends Component {
   async componentDidMount() {
     const { dispatch } = this.props;
     
-    const category = await dispatch(fetchCategory());
+    await dispatch(fetchCategory());
     this.setState({loading: false});
   }
 
@@ -60,7 +69,7 @@ class NewBook extends Component {
       this.languageInput.current.classList.remove('wrong-input');
       this.languageInput.current.classList.remove('wrong-label');
 
-      errors.map((error) => {
+      errors.forEach((error) => {
         
         if (error.field === this.titleInput.current.name) {
           this.titleInput.current.classList.add("wrong-input");
@@ -87,8 +96,8 @@ class NewBook extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isAdding, book, type, category, errors } = this.props;
-    const { redirect, loading } = this.state;
+    const { isAdding, book, errors } = this.props;
+    const { redirect } = this.state;
     console.log(isAdding);
     
 
@@ -111,26 +120,26 @@ class NewBook extends Component {
     
     this.handleErrors(errors);
 
-    if(loading){
+    if(loading) {
       return (<p>áfram</p>);
     }
 
     if (redirect) {
       return (
         <div>
-          <p>Nýskráning tókst</p>
+          <p>Tókst að skrá bók</p>
           <p><Link to="/login">Innskráning</Link></p>
         </div>
       );
     }
 
     return (
-      <div class="page">
-        <div class="errorMessage">
+      <div className="page">
+        <div className="errorMessage">
         <ul>
         {(errors.map((error) => {
           return (
-          <li>
+          <li key={error.field}>
             <h3>{error.message}</h3>
           </li>
           )
@@ -140,7 +149,7 @@ class NewBook extends Component {
         <Helmet title='Skrá bók' />
         <h1>Ný bók</h1>
         <form className="new-book-form">
-          <div class="skraElement">
+          <div className="skraElement">
             <p>Titill:</p>
             <input type="text" name="title" ref={this.titleInput}/>
           </div>
@@ -159,7 +168,7 @@ class NewBook extends Component {
             <option>--Veldu Flokk--</option>
               {category[0].items.map((category) => {
               return (
-              <option value={category.id}>
+              <option key={category.id} value={category.id}>
                 {category.title}
               </option>
               )

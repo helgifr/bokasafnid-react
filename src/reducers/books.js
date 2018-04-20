@@ -4,7 +4,7 @@ const initialState = {
   isFetching: false,
   isAdding: true,
   books: {},
-  category: {},
+  category: [],
   error: null,
   errors: [],
 };

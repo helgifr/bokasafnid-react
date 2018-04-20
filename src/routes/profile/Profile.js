@@ -61,7 +61,7 @@ class Profile extends Component {
     const { books } = this.props;
 
     const qs = queryString.parse(this.props.location.search);
-    const { page = 1} = qs;
+    const { page = 1 } = qs;
 
     if (loading) {
       return (
@@ -203,7 +203,6 @@ class Profile extends Component {
     let updateImage = this.updateImage();
     let updateName = this.updateName();
     let updatePassword = this.updatePassword();
-    let info = this.info(user);
     let books = this.books();
 
     return (

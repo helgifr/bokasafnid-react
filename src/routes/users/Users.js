@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
-
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 
@@ -21,7 +21,11 @@ class Users extends Component {
   state = {
     loading: true,
     page: queryString.parse(this.props.location.search).page,
+  }
 
+  static propTypes = {
+    dispatch: PropTypes.func,
+    users: PropTypes.object,
   }
 
 async componentDidMount() {
@@ -32,7 +36,7 @@ async componentDidMount() {
 
 async componentDidUpdate(prevProps, prevState) {
   const newqs = queryString.parse(this.props.location.search);
-  const { page = 1, query = '' } = newqs;
+  const { page = 1 } = newqs;
 
   if (prevState.page !== page) {
     const { dispatch } = this.props;
@@ -56,6 +60,7 @@ async componentDidUpdate(prevProps, prevState) {
 
     return (
       <div className="profile">
+        <Helmet title="Notendur" />
         <section>
         <h1 className="title">Notendur</h1>
         <ul>
@@ -70,10 +75,10 @@ async componentDidUpdate(prevProps, prevState) {
           })}
         </ul>
         {page > 1 &&
-          <Link to={{pathname: "/profile", search: `?page=${Number(page) - 1}`}}><Button>{"<"} Til baka</Button></Link>
+          <Link to={{pathname: "/users", search: `?page=${Number(page) - 1}`}}><Button>{"<"} Til baka</Button></Link>
         }
         {users.items.length === 10 &&
-          <Link to={{pathname: "/profile", search: `?page=${Number(page) + 1}`}}><Button>Næsta síða ></Button></Link>
+          <Link to={{pathname: "/users", search: `?page=${Number(page) + 1}`}}><Button>Næsta síða ></Button></Link>
         }
         </section>
       </div>
