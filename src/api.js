@@ -47,6 +47,35 @@ async function post(endpoint, data) {
   return { result, status: response.status };
 }
 
+async function postImg(endpoint, data) {
+
+  const token = window.localStorage.getItem('token');
+
+  const url = `${baseurl}${endpoint}`;
+  
+  console.log(data);
+  
+  
+  const options = {
+    body: data,
+    headers: {
+
+    },
+    method: 'POST',
+  };
+  console.log(options);
+  
+  if (token) {
+    options.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, options);
+
+  const result = await response.json();
+
+  return { result, status: response.status };
+}
+
 async function patch(endpoint, data) {
 
   const token = window.localStorage.getItem('token');
@@ -78,4 +107,5 @@ export default {
   get,
   post,
   patch,
+  postImg,
 };

@@ -185,13 +185,12 @@ function requestUpdate() {
 }
 
 function updateError(error) {
-  console.log(error);
-  
+
   return {
     type: USER_UPDATE_ERROR,
     isFetchingUser: false,
     result: error,
-    errors: error.result.errors,
+    errors: "error.result.errors",
   }
 }
 
@@ -202,6 +201,24 @@ function receiveUpdate(user) {
     isAuthenticated: true,
     user,
     message: null,
+  }
+}
+
+export const updateImage = (image) => {
+  return async (dispatch) => {
+    dispatch(requestUpdate());
+
+    let update;
+    let data = {};
+    data['profile'] = image;
+    try {
+      update = await api.postImg(`/users/me/profile`, data);
+    } catch (e) {
+      console.log(e);
+      return dispatch(updateError(e))
+    }
+    console.log(update);
+    dispatch(receiveUpdate(update.result));
   }
 }
 
