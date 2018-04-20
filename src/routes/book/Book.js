@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchBooks } from '../../actions/books';
 import { addReview } from '../../actions/review';
 import Helmet from 'react-helmet';
@@ -11,6 +12,13 @@ import './Book.css';
 class Book extends Component {
 
   state = { loading: true };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    match: PropTypes.object,
+    books: PropTypes.object,
+    review: PropTypes.object,
+  }
 
   reviewInput = React.createRef();
   gradeInput = React.createRef();
@@ -25,7 +33,7 @@ class Book extends Component {
   read = (e) => {
     const { books, dispatch, review = [] } = this.props;
     const reviewInput = this.reviewInput.current.value;
-    const rating = parseInt(this.gradeInput.current.value);
+    const rating = parseInt(this.gradeInput.current.value, 10);
     const bookId = books.id;
     dispatch(addReview(bookId, rating, reviewInput));
   }

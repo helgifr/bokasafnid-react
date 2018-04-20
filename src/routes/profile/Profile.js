@@ -43,25 +43,6 @@ class Profile extends Component {
   passwordInput1 = React.createRef();
   passwordInput2 = React.createRef();
 
-  info(user) {
-    const { name, image } = user;
-    let src;
-    if (image) {
-      src = image;
-    } else {
-      src = "/profile.jpg";
-    }
-    return (
-      <div className="user">
-        <img src={src} alt="profile picture" />
-        <p className="name"> {name} </p>
-        <div className="info">
-
-        </div>
-      </div>
-    );
-  }
-
   deleteBook(id) {
 
     
@@ -72,7 +53,7 @@ class Profile extends Component {
     const { books } = this.props;
 
     const qs = queryString.parse(this.props.location.search);
-    const { page = 1} = qs;
+    const { page = 1 } = qs;
 
     if (loading) {
       return (
@@ -214,7 +195,6 @@ class Profile extends Component {
     let updateImage = this.updateImage();
     let updateName = this.updateName();
     let updatePassword = this.updatePassword();
-    let info = this.info(user);
     let books = this.books();
 
     return (

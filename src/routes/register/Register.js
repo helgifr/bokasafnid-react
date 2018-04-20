@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 
@@ -14,6 +15,13 @@ import './Register.css';
 class Register extends Component {
 
   state = { redirect: false };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    isFetching: PropTypes.bool,
+    result: PropTypes.object,
+    errors: PropTypes.array,
+  }
 
   usernameInput = React.createRef();
   usernameLabel = React.createRef();
@@ -52,10 +60,9 @@ class Register extends Component {
       this.nameLabel.current.classList.remove('wrong-label');
 
       if (result.status === 201) {
-        console.log('Tókst ad skra notanda');
         this.setState({ redirect: true });
       } else {
-        errors.map((error) => {
+        errors.forEach((error) => {
           if (error.field === this.usernameInput.current.id) {
             this.usernameInput.current.classList.add("wrong-input");
             this.usernameLabel.current.classList.add('wrong-label');
@@ -74,7 +81,6 @@ class Register extends Component {
   render() {
     const { redirect } = this.state;
     const { errors = [] } = this.props;
-    console.log(errors);
 
     if (redirect) {
       return (

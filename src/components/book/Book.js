@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 
 export default class Book extends Component {
 
+  static propTypes = {
+    published: PropTypes.string,
+    author: PropTypes.string,
+    title: PropTypes.string,
+    id: PropTypes.number,
+  }
 
   render() {
-    const { id, title, author, published = null, onHeaderClick } = this.props;
+    const { id, title, author, published = null } = this.props;
     let publishedText = '';
     if (published) {
       publishedText = `, gefin út ${published}`;

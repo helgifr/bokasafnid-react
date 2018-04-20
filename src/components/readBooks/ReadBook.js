@@ -8,6 +8,13 @@ import DeleteButton from '../../components/deleteButton';
 
 export default class ReadBooks extends Component {
 
+  static propTypes = {
+    id: PropTypes.number,
+    title: PropTypes.string,
+    rating: PropTypes.number,
+    review: PropTypes.string,
+  }
+
   deleteBook(id){
     //console.log(id);
     

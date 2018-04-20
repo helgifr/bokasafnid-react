@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
@@ -11,6 +12,11 @@ import { logoutUser } from '../../actions/auth';
 
 class Header extends Component {
   state = { loading: true };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    user: PropTypes.object,
+  }
 
   signOut = (e) => {
     const { dispatch } = this.props;

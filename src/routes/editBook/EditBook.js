@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
 import './EditBook.css';
 
@@ -11,6 +12,15 @@ import Button from '../../components/button';
 class EditBook extends Component {
 
   state = { redirect : false, loading: true };
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    match: PropTypes.object,
+    isAdding: PropTypes.bool,
+    book: PropTypes.object,
+    category: PropTypes.array,
+    errors: PropTypes.array,
+  }
 
   titleInput = React.createRef();
   titleLabel = React.createRef();
@@ -35,7 +45,7 @@ class EditBook extends Component {
     const { dispatch, match } = this.props;
     const { book } = match.params;
 
-    const category = await dispatch(fetchCategory());
+    await dispatch(fetchCategory());
     await dispatch(fetchBooks(`/${book}`))
 
     this.setState({loading: false});
@@ -62,7 +72,7 @@ class EditBook extends Component {
       this.languageInput.current.classList.remove('wrong-input');
       this.languageLabel.current.classList.remove('wrong-label');
 
-      errors.map((error) => {
+      errors.forEach((error) => {
         switch (error.field) {
           case 'title':
             this.titleInput.current.classList.add('wrong-input');
@@ -96,7 +106,7 @@ class EditBook extends Component {
             this.pagesInput.current.classList.add('wrong-input');
             this.pagesLabel.current.classList.add('wrong-label');
             break;
-          case 'language':
+          default:
             this.languageInput.current.classList.add('wrong-input');
             this.languageLabel.current.classList.add('wrong-label');
             break;
@@ -123,8 +133,8 @@ class EditBook extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { isAdding, book, type, category, errors } = this.props;
-    const { redirect, loading } = this.state;
+    const { isAdding } = this.props;
+    const { redirect } = this.state;
     if (!isAdding && !redirect) {
       this.setState({ redirect: true });
     }

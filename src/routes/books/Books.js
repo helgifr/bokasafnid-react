@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchBooks } from '../../actions/books';
 import queryString from 'query-string';
 import Helmet from 'react-helmet';
+import PropTypes from 'prop-types';
 
 import Book from '../../components/book';
 import Button from '../../components/button';
@@ -16,6 +17,11 @@ class Books extends Component {
     loading: true,
     page: queryString.parse(this.props.location.search).page,
     query: queryString.parse(this.props.location.search).query,
+  }
+
+  static propTypes = {
+    dispatch: PropTypes.func,
+    books: PropTypes.object,
   }
 
   async componentDidMount() {
