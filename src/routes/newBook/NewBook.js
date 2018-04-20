@@ -91,7 +91,6 @@ class NewBook extends Component {
     const { redirect, loading } = this.state;
     
     if (!isAdding && !redirect) {
-
       if (book.status === 401) {
         this.handleErrors(errors);
       } 
