@@ -57,3 +57,48 @@ export const fetchReadUser = (id, endpoint) => {
     dispatch(receiveReadBooks(books.result));
   }
 }
+
+
+export const DELETE_REQUEST = 'DELETE_REQUEST';
+export const DELETE_ERROR = 'DELETE_ERROR';
+export const DELETE_SUCCESS = 'DELETE_SUCCESS';
+
+function requestDeleteBooks() {
+  return {
+    type: DELETE_REQUEST,
+    isDeleting: true,
+    error: null,
+  }
+}
+
+function readDeleteError(error) {
+  return {
+    type: DELETE_ERROR,
+    isDeleting: true,
+    error: error,
+  }
+}
+
+function successDeleteRead(books) {
+  return {
+    type: DELETE_SUCCESS,
+    isDeleting: false,
+    error: null,
+  }
+}
+
+export const deleteRead = (id) => {
+  return async (dispatch) => {
+    dispatch(requestDeleteBooks());
+    
+    
+    let del;
+    try {
+      del = await api.deleteBook(`/users/me/read/${id}`);
+    } catch (e) {
+      return dispatch(readDeleteError(e))
+    }
+    dispatch(successDeleteRead(del));
+    
+  }
+}

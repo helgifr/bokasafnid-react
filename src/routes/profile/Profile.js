@@ -31,24 +31,32 @@ class Profile extends Component {
     this.onImageSubmit = this.onImageSubmit.bind(this)
     this.onImageChange = this.onImageChange.bind(this)
   }
-
-  /*state = {
-    loading: true,
-    page: queryString.parse(this.props.location.search).page,
-    file : null,
-  }*/
   
   nameInput = React.createRef();
 
   passwordInput1 = React.createRef();
   passwordInput2 = React.createRef();
 
-  deleteBook(id) {
+  info(user) {
+    const { name, image } = user;
+    let src;
+    if (image) {
+      src = image;
+    } else {
+      src = "/profile.jpg";
+    }
+    return (
+      <div className="user">
+        <img src={src} alt="profile picture" />
+        <p className="name"> {name} </p>
+        <div className="info">
 
-    
+        </div>
+      </div>
+    );
   }
 
-  books() {
+  books(){
     const { loading } = this.state;
     const { books } = this.props;
 

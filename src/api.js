@@ -59,7 +59,7 @@ async function postImg(endpoint, data) {
   const options = {
     body: formData,
     headers: {
-      'enctype': 'multipart/form-data'
+
     },
     method: 'POST',
   };
@@ -100,6 +100,29 @@ async function patch(endpoint, data) {
   return { result, status: response.status };
 }
 
+async function deleteBook(endpoint) {
+
+  const token = window.localStorage.getItem('token');
+
+  const url = `${baseurl}${endpoint}`;
+
+  const options = {
+    headers: {
+    },
+    method: 'DELETE',
+  };
+
+  if (token) {
+    options.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(url, options);
+
+  const result = await response.json();
+
+  return { result, status: response.status };
+}
+
 /* todo aðrar aðgerðir */
 
 export default {
@@ -107,4 +130,5 @@ export default {
   post,
   patch,
   postImg,
+  deleteBook,
 };
