@@ -62,7 +62,16 @@ class Profile extends Component {
     );
   }
 
+<<<<<<< HEAD
   books(){
+=======
+  deleteBook(id) {
+
+    
+  }
+
+  books() {
+>>>>>>> e811fb20a92cb87d5b0888f62a994b0e7850e78f
     const { loading } = this.state;
     const { books } = this.props;
 
@@ -120,7 +129,7 @@ class Profile extends Component {
     const password2 = this.passwordInput2.current.value;
     this.passwordInput1.current.value = "";
     this.passwordInput2.current.value = "";
-    if(password1 != null && password1 === password2){
+    if(password1 != null && password1 === password2) {
       const { dispatch } = this.props;
       dispatch(updatePassword(password1));
     }
@@ -129,7 +138,6 @@ class Profile extends Component {
   onImageSubmit(e){
     e.preventDefault() // Stop form submit
     const image = this.state.file;
-    console.log(image);
     if(image != null){
       const { dispatch } = this.props;
       dispatch(updateImage(image));
@@ -146,7 +154,7 @@ class Profile extends Component {
 
     return (
       <div>
-        <form enctype="multipart/form-data" onSubmit={this.onImageSubmit}>
+        <form onSubmit={this.onImageSubmit}>
           <h1>Breyta mynd</h1>
           <input type="file" onChange={this.onImageChange} />
           <Button type="submit">Hlaða upp</Button>
@@ -190,7 +198,7 @@ class Profile extends Component {
 
   async componentDidMount() {
     const { dispatch } = this.props;
-    const { page = 1} = this.state;
+    const { page = 1 } = this.state;
     await dispatch(fetchRead(`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
   }

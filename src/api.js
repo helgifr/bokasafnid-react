@@ -52,19 +52,18 @@ async function postImg(endpoint, data) {
   const token = window.localStorage.getItem('token');
 
   const url = `${baseurl}${endpoint}`;
-  
-  console.log(data);
-  
+
+  const formData = new FormData();
+  formData.set('profile', data);
   
   const options = {
-    body: data,
+    body: formData,
     headers: {
       'enctype': 'multipart/form-data'
     },
     method: 'POST',
   };
-  console.log(options);
-  
+
   if (token) {
     options.headers['Authorization'] = `Bearer ${token}`;
   }
