@@ -12,11 +12,6 @@ import { logoutUser } from '../../actions/auth';
 class Header extends Component {
   state = { loading: true };
 
-  async componentDidMount() {
-    const { dispatch } = this.props;
-    await dispatch()
-  }
-
   signOut = (e) => {
     const { dispatch } = this.props;
     dispatch(logoutUser());

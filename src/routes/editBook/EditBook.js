@@ -163,7 +163,7 @@ class EditBook extends Component {
         <ul>
         {(errors.map((error) => {
           return (
-          <li>
+          <li key={error.title}>
             {error.message}
           </li>
           )
@@ -180,9 +180,7 @@ class EditBook extends Component {
           </div>
           <div className="lysing">
             <label className="label" ref={this.descriptionLabel}>Lýsing:</label>
-            <textarea rows="4" cols="50" name="description" ref={this.descriptionInput}>
-              {book.description}
-            </textarea>
+            <textarea defaultValue={book.description} rows="4" cols="50" name="description" ref={this.descriptionInput} />
           </div>
           <div className="skraElement">
             <label className="label" ref={this.categoryLabel}>Flokkur:</label>
@@ -190,7 +188,7 @@ class EditBook extends Component {
             <option value="null">--Veldu Flokk--</option>
               {category[0].items.map((category) => {
               return (
-              <option value={category.id}>
+              <option key={category.id} value={category.id}>
                 {category.title}
               </option>
               )

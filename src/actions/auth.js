@@ -217,7 +217,7 @@ export const updateName = (name) => {
     } catch (e) {
       return dispatch(updateError(e))
     }
-    console.log(update);
+    localStorage.setItem('user', JSON.stringify(update.result));
     dispatch(receiveUpdate(update.result));
   }
 }
