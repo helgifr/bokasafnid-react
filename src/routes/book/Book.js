@@ -125,7 +125,8 @@ class Book extends Component {
             </select>
             <Button onClick={this.read} className="read">Skrá lesing</Button>
           </form>
-        </div>}
+        </div>
+        }
         {allReadyReview && <div>
         {(bookRev.map((rev) => {
           return (
