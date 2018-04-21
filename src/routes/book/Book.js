@@ -57,6 +57,11 @@ class Book extends Component {
     this.setState({ deleted: true })
   }
 
+  cancel(){
+    this.reviewInput.current.value="";
+    this.gradeInput.current.value=1;
+  }
+
   render() {
 
     const { books, match, review} = this.props;
@@ -110,13 +115,23 @@ class Book extends Component {
           <p>Tungumál: {books.language}</p>
         }
         <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
+<<<<<<< HEAD
         {!allReadyReview && <div>
         <form className="reviewForm">
           <div className="field">
             <p>Gumsi</p>
             <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
             </textarea>
+=======
+        {!allReadyReview && <div className="rating">
+          <div className="about">
+              <h2>Um bók:</h2>
+              <textarea name="description" className="textarea" ref={this.reviewInput}>
+              </textarea>
+>>>>>>> d0db08775864355b1469a49d7b22e6ea96312712
           </div>
+          <div className="dropdown">
+            <p>Einkunn</p>
             <select ref={this.gradeInput}>
               <option value="1">1</option>
               <option value="2">2</option>
@@ -124,17 +139,28 @@ class Book extends Component {
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
+          </div>
+          <div className="buttons">
+          <div className="btnleft">
             <Button onClick={this.read} className="read">Skrá lesing</Button>
+<<<<<<< HEAD
           </form>
 
           <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
 
+=======
+          </div>
+          <div className="btnright">
+            <DeleteButton className="delete-button" onClick={() => {this.cancel()}}> Hætta við </DeleteButton>
+          </div>
+          </div>
+>>>>>>> d0db08775864355b1469a49d7b22e6ea96312712
         </div>
         }
         {allReadyReview && <div>
         {(bookRev.map((rev) => {
           return (
-            <div>
+            <div className="review">
               <h1>Lesin bók</h1>
               <h3>einkunn: {rev.rating}</h3>
               <h3>Review:  {rev.revari}</h3>
