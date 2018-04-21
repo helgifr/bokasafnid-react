@@ -129,7 +129,6 @@ class Book extends Component {
 
           <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
 
-        </div>
         </div>}
         {allReadyReview && <div>
         {(bookRev.map((rev) => {
