@@ -71,15 +71,9 @@ class Book extends Component {
     
 
     if(review){
-      //console.log("This books ID:" + books.id);
       
       for(var i = 0; i < review.items.length; i++){
-        console.log(review.items);
-        
-      
-       // console.log("Comparing " + review.items[i].book_id + " to " + books.id );
-      //  console.log("counter: " + i);
-        
+
         if(review.items[i].book_id === books.id){
         bookRev.push({
           rating: review.items[i].rating,
@@ -115,20 +109,11 @@ class Book extends Component {
           <p>Tungumál: {books.language}</p>
         }
         <Link to={`/books/${match.params.book}/edit`}>Breyta bók</Link>
-<<<<<<< HEAD
-        {!allReadyReview && <div>
-        <form className="reviewForm">
-          <div className="field">
-            <p>Gumsi</p>
-            <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
-            </textarea>
-=======
         {!allReadyReview && <div className="rating">
           <div className="about">
               <h2>Um bók:</h2>
               <textarea name="description" className="textarea" ref={this.reviewInput}>
               </textarea>
->>>>>>> d0db08775864355b1469a49d7b22e6ea96312712
           </div>
           <div className="dropdown">
             <p>Einkunn</p>
@@ -143,18 +128,11 @@ class Book extends Component {
           <div className="buttons">
           <div className="btnleft">
             <Button onClick={this.read} className="read">Skrá lesing</Button>
-<<<<<<< HEAD
-          </form>
-
-          <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
-
-=======
           </div>
           <div className="btnright">
-            <DeleteButton className="delete-button" onClick={() => {this.cancel()}}> Hætta við </DeleteButton>
+            <DeleteButton className="cancel-button" onClick={() => {this.cancel()}}> Hætta við </DeleteButton>
           </div>
           </div>
->>>>>>> d0db08775864355b1469a49d7b22e6ea96312712
         </div>
         }
         {allReadyReview && <div>
