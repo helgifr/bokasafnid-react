@@ -11,7 +11,7 @@ import { fetchRead } from '../../actions/user';
 import { updateImage } from '../../actions/auth';
 import { updateName } from '../../actions/auth';
 import { updatePassword } from '../../actions/auth';
-import queryString from 'query-string';
+import queryString from 'querystring';
 
 import './Profile.css';
 
@@ -187,7 +187,9 @@ class Profile extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     const newqs = queryString.parse(this.props.location.search);
-    const { page = 1 } = newqs;
+    console.log(newqs);
+    
+    const { page = 1, query = '' } = newqs;
 
     if (prevState.page !== page) {
       const { dispatch } = this.props;
