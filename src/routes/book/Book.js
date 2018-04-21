@@ -52,25 +52,30 @@ class Book extends Component {
   }
 
   deleteBook(id){
-    console.log("fer í fallid");
-    
     const { dispatch } = this.props;
     dispatch(deleteRead(id));
     this.setState({ deleted: true })
   }
 
   render() {
+
     const { books, match, review} = this.props;
     const { loading } = this.state;
     const bookRev = [];
-    let bookIdinDb = 1;
     let allReadyReview = false;
     
 
     if(review){
+      //console.log("This books ID:" + books.id);
+      
       for(var i = 0; i < review.items.length; i++){
+        console.log(review.items);
+        
+      
+       // console.log("Comparing " + review.items[i].book_id + " to " + books.id );
+      //  console.log("counter: " + i);
+        
         if(review.items[i].book_id === books.id){
-        bookIdinDb = review.items[i].id;
         bookRev.push({
           rating: review.items[i].rating,
           revari: review.items[i].review,
@@ -108,13 +113,9 @@ class Book extends Component {
         {!allReadyReview && <div>
         <form className="reviewForm">
           <div className="field">
-            <div>
-              <p>Um bók:</p>
-            </div>
-            <div>
-              <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
-              </textarea>
-            </div>
+            <p>Gumsi</p>
+            <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
+            </textarea>
           </div>
             <select ref={this.gradeInput}>
               <option value="1">1</option>
@@ -125,6 +126,9 @@ class Book extends Component {
             </select>
             <Button onClick={this.read} className="read">Skrá lesing</Button>
           </form>
+
+          <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
+
         </div>
         }
         {allReadyReview && <div>
@@ -133,8 +137,7 @@ class Book extends Component {
             <div>
               <h1>Lesin bók</h1>
               <h3>einkunn: {rev.rating}</h3>
-              <h3>Um bók:  {rev.revari}</h3>
-              <DeleteButton className="delete-button" onClick={() => {this.deleteBook(bookIdinDb)}}> Eyða </DeleteButton>
+              <h3>Review:  {rev.revari}</h3>
             </div>
           )
         }))}

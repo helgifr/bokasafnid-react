@@ -8,7 +8,7 @@ Helgi Freyr Helgason, hfh13@hi.is <br />
 Stefán Gunnlaugur Jónsson, sgj10@hi.is
 
 ## Uppsetning
-* Keyra þarf localhost af hópverkefni 1 á t.d. port 5000
+* Keyra þarf hópverkefni 1 á localhost t.d. port 5000
 * Keyra þarf 'npm install'.
 * Fylla þarf inn .env skrá. Hún mundi þá innihallda eitthvað á þessa leið: <br />
   REACT_APP_SERVICE_URL=http://localhost:5000
