@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchBooks } from '../../actions/books';
-import queryString from 'query-string';
+import queryString from 'querystring';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 
@@ -15,8 +15,8 @@ class Books extends Component {
 
   state = {
     loading: true,
-    page: queryString.parse(this.props.location.search).page,
-    query: queryString.parse(this.props.location.search).query,
+    page: queryString.parse((this.props.location.search).substring(1)).page,
+    query: queryString.parse((this.props.location.search).substring(1)).query,
   }
 
   static propTypes = {
@@ -31,9 +31,9 @@ class Books extends Component {
     await dispatch(fetchBooks(`?offset=${10 * (page - 1)}&search=${query}`));
     this.setState({ loading: false });
   }
-  
+
   async componentDidUpdate(prevProps, prevState) {
-    const newqs = queryString.parse(this.props.location.search);
+    const newqs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1, query = '' } = newqs;
 
     if (prevState.page !== page || prevState.query !== query) {
@@ -47,7 +47,7 @@ class Books extends Component {
   render() {
     const { loading } = this.state;
     const { books } = this.props;
-    const qs = queryString.parse(this.props.location.search);
+    const qs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1, query = '' } = qs;
 
     if (loading) {

@@ -11,7 +11,7 @@ import { fetchRead } from '../../actions/user';
 import { updateImage } from '../../actions/auth';
 import { updateName } from '../../actions/auth';
 import { updatePassword } from '../../actions/auth';
-import queryString from 'query-string';
+import queryString from 'querystring';
 
 import './Profile.css';
 
@@ -25,7 +25,7 @@ class Profile extends Component {
     super(props);
     this.state ={
       loading: true,
-      page: queryString.parse(this.props.location.search).page,
+      page: queryString.parse((this.props.location.search).substring(1)).page,
       file : null,
     }
     this.onImageSubmit = this.onImageSubmit.bind(this)
@@ -60,7 +60,7 @@ class Profile extends Component {
     const { loading } = this.state;
     const { books } = this.props;
 
-    const qs = queryString.parse(this.props.location.search);
+    const qs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1 } = qs;
 
     if (loading) {
@@ -186,7 +186,7 @@ class Profile extends Component {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const newqs = queryString.parse(this.props.location.search);
+    const newqs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1 } = newqs;
 
     if (prevState.page !== page) {

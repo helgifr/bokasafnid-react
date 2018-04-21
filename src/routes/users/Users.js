@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 import { fetchUsersPage } from '../../actions/allUsers';
 
-import queryString from 'query-string';
+import queryString from 'querystring';
 
 import './Users.css';
 import Button from '../../components/button';
@@ -20,7 +20,7 @@ class Users extends Component {
 
   state = {
     loading: true,
-    page: queryString.parse(this.props.location.search).page,
+    page: queryString.parse((this.props.location.search).substring(1)).page,
   }
 
   static propTypes = {
@@ -28,14 +28,16 @@ class Users extends Component {
     users: PropTypes.object,
   }
 
-async componentDidMount() {
+  async componentDidMount() {
+    console.log(queryString.parse((this.props.location.search).substring(1)));
+  
     const { dispatch } = this.props;
     await dispatch(fetchUsersPage(`?offset=${10 * (this.state.page - 1)}`));
     this.setState({ loading: false });
   }
 
 async componentDidUpdate(prevProps, prevState) {
-  const newqs = queryString.parse(this.props.location.search);
+  const newqs = queryString.parse((this.props.location.search).substring(1));
   const { page = 1 } = newqs;
 
   if (prevState.page !== page) {
@@ -49,7 +51,7 @@ async componentDidUpdate(prevProps, prevState) {
     const { loading } = this.state;
     const { users } = this.props;
 
-    const qs = queryString.parse(this.props.location.search);
+    const qs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1 } = qs;
 
     if (loading) {

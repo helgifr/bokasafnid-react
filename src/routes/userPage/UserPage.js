@@ -9,7 +9,7 @@ import Helmet from 'react-helmet';
 import './userPage.css';
 
 import ReadBook from '../../components/readBooks';
-import queryString from 'query-string';
+import queryString from 'querystring';
 import Button from '../../components/button';
 
 class UserPage extends Component {
@@ -44,7 +44,7 @@ class UserPage extends Component {
     const { books } = this.props;
     const { user } = match.params;
 
-    const qs = queryString.parse(this.props.location.search);
+    const qs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1 } = qs;
 
     if (loading) {
@@ -91,7 +91,7 @@ class UserPage extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     const { match } = this.props;
-    const newqs = queryString.parse(this.props.location.search);
+    const newqs = queryString.parse((this.props.location.search).substring(1));
     const { page = 1 } = newqs;
     const { user } = match.params;
     if (prevState.page !== page) {
