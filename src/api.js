@@ -39,9 +39,11 @@ async function post(endpoint, data) {
   if (token) {
     options.headers['Authorization'] = `Bearer ${token}`;
   }
-
+  console.log('1');
+  
   const response = await fetch(url, options);
-
+  console.log('2');
+  
   const result = await response.json();
 
   return { result, status: response.status };

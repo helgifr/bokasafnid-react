@@ -1,8 +1,17 @@
 import api from '../api';
+import { logoutUser } from './auth';
 
 export const BOOKS_REQUEST = 'BOOKS_REQUEST';
 export const BOOKS_ERROR = 'BOOKS_ERROR';
 export const BOOKS_SUCCESS = 'BOOKS_SUCCESS';
+
+export const BOOKS_LOGOUT = 'BOOKS_LOGOUT';
+
+function logout() {
+  return {
+    type: BOOKS_LOGOUT,
+  }
+}
 
 function requestBooks() {
   return {
@@ -102,6 +111,9 @@ export const fetchCategory = () => {
     } catch (e) {
       return dispatch(categoryError(e))
     }
+    if (category.status === 401) {
+      dispatch(logout());
+    }
     dispatch(receiveCategory(category.result));
   }
 }
@@ -116,6 +128,9 @@ export const fetchBooks = (endpoint) => {
     } catch (e) {
       return dispatch(booksError(e))
     }
+    if (books.status === 401) {
+      dispatch(logout());
+    }
     dispatch(receiveBooks(books.result));
   }
 }
@@ -129,6 +144,10 @@ export const addBook = (title, isbn13, author, description, category, isbn10, pu
       book = await api.post('/books', { title, isbn13, author, description, category, isbn10, published, pageCount, language });
     } catch (e) {
       return dispatch(addBooksError([{ message: e }]))
+    }
+
+    if (book.status === 401) {
+      dispatch(logout());
     }
 
     if (book.status >= 400) {
@@ -148,6 +167,10 @@ export const patchBook = (id, title, isbn13, author, description, category, isbn
       book = await api.patch(`/books/${id}`, { title, isbn13, author, description, category, isbn10, published, pageCount, language });
     } catch (e) {
       return dispatch(addBooksError([{ message: e }]));
+    }
+
+    if (book.status === 401) {
+      dispatch(logout());
     }
 
     if (book.status >= 400) {

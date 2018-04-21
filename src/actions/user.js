@@ -4,6 +4,8 @@ export const USER_REQUEST = 'USER_REQUEST';
 export const USER_ERROR = 'USER_ERROR';
 export const USER_SUCCESS = 'USER_SUCCESS';
 
+export const LOGOUT_USERS = 'LOGOUT_USERS';
+
 function requestReadBooks() {
   return {
     type: USER_REQUEST,
@@ -30,6 +32,12 @@ function receiveReadBooks(books) {
   }
 }
 
+function logout() {
+  return {
+    type: LOGOUT_USERS,
+  }
+}
+
 export const fetchRead = (endpoint) => {
     return async (dispatch) => {
       dispatch(requestReadBooks());
@@ -38,7 +46,10 @@ export const fetchRead = (endpoint) => {
       try {
         books = await api.get(`/users/me/read${endpoint}`);
       } catch (e) {
-        return dispatch(readBooksError(e))
+        return dispatch(readBooksError(e));
+      }
+      if (books.status === 401) {
+        dispatch(logout());
       }
       dispatch(receiveReadBooks(books.result));
     }
@@ -53,6 +64,9 @@ export const fetchReadUser = (id, endpoint) => {
       books = await api.get(`/users/${id}/read${endpoint}`);
     } catch (e) {
       return dispatch(readBooksError(e))
+    }
+    if (books.status === 401) {
+      dispatch(logout());
     }
     dispatch(receiveReadBooks(books.result));
   }
@@ -97,6 +111,9 @@ export const deleteRead = (id) => {
       del = await api.deleteBook(`/users/me/read/${id}`);
     } catch (e) {
       return dispatch(readDeleteError(e))
+    }
+    if (del.status === 401) {
+      dispatch(logout());
     }
     dispatch(successDeleteRead(del));
     

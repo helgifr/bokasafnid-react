@@ -4,6 +4,8 @@ export const ALL_USERS_REQUEST = 'ALL_USERS_REQUEST';
 export const ALL_USERS_ERROR = 'ALL_USERS_ERROR';
 export const ALL_USERS_SUCCESS = 'ALL_USERS_SUCCESS';
 
+export const ALL_USERS_LOGOUT = 'ALL_USERS_LOGOUT';
+
 function requestUsers() {
   return {
     type: ALL_USERS_REQUEST,
@@ -30,6 +32,12 @@ function receiveUsers(users) {
   }
 }
 
+function logout() {
+  return {
+    type: ALL_USERS_LOGOUT,
+  }
+}
+
 export const fetchUsers = (id) => {
     return async (dispatch) => {
       dispatch(requestUsers());
@@ -39,6 +47,9 @@ export const fetchUsers = (id) => {
         users = await api.get(`/users/${id}`);
       } catch (e) {
         return dispatch(usersError(e))
+      }
+      if (users.status === 401) {
+        dispatch(logout());
       }
       dispatch(receiveUsers(users.result));
     }
@@ -53,6 +64,9 @@ export const fetchUsersPage = (endpoint) => {
       users = await api.get(`/users${endpoint}`);
     } catch (e) {
       return dispatch(usersError(e))
+    }
+    if (users.status === 401) {
+      dispatch(logout());
     }
     dispatch(receiveUsers(users.result));
   }

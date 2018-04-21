@@ -4,6 +4,8 @@ export const REVIEW_REQUEST = 'REVIEW_REQUEST';
 export const REVIEW_ERROR = 'REVIEW_ERROR';
 export const REVIEW_SUCCESS = 'REVIEW_SUCCESS';
 
+export const LOGOUT_REVIEW = 'LOGOUT_REVIEW';
+
 function addingReview() {
   return {
     type: REVIEW_REQUEST,
@@ -30,17 +32,29 @@ function receiveReview(review) {
   }
 }
 
+function logout() {
+  return {
+    type: LOGOUT_REVIEW,
+  }
+}
+
 export const addReview = (bookId, rating, review) => {
   let reviewResult; 
   return async (dispatch) => {
       dispatch(addingReview());
       try {
-        reviewResult = await api.post('/users/me/read', { bookId, rating, review});          
+        reviewResult = await api.post('/users/me/read', { bookId, rating, review});
+        console.log('helgi');
       } catch (e) {
         return dispatch(addingreviewError([{ message: e }]))
       }
+      console.log('helgi');
+
+      if (reviewResult.status === 401) {
+        dispatch(logout());
+      }
       if (review.status >= 400) {
-        return dispatch(addingreviewError(review.result.errors))
+        return dispatch((review.result.errors))
       }
       //console.log(reviewResult);
       dispatch(receiveReview(review.result))
@@ -52,11 +66,20 @@ export const addReview = (bookId, rating, review) => {
 
     return async (dispatch) => {
         dispatch(addingReview());
+        console.log('ds');
+        
         try {
           reviewResult = await api.get(`/users/me/read`);          
+          console.log(reviewResult);
         } catch (e) {
+          console.log(reviewResult);
           return dispatch(addingreviewError([{ message: e }]))
         }
+        if (reviewResult.status === 401) {
+          dispatch(logout());
+          
+        }
+        
         if (reviewResult.status >= 400) {
           return dispatch(addingreviewError(reviewResult.errors))
         }

@@ -8,6 +8,21 @@ import {
   USER_UPDATE_ERROR,
 } from '../actions/auth';
 
+import {
+  LOGOUT_REVIEW,
+} from '../actions/review';
+
+import {
+  LOGOUT_USERS,
+} from '../actions/user';
+
+import {
+  BOOKS_LOGOUT,
+} from '../actions/books';
+
+import {
+  ALL_USERS_LOGOUT,
+} from '../actions/allUsers';
 
 const user = JSON.parse(localStorage.getItem('user') || 'null');
 
@@ -33,6 +48,26 @@ export default (state = initialState, action) => {
         isAuthenticated: action.isAuthenticated,
         message: action.message
       };
+
+    case LOGOUT_REVIEW:
+      return {
+        isAuthenticated: false,
+      }
+
+    case LOGOUT_USERS:
+      return {
+        isAuthenticated: false,
+      }
+
+    case BOOKS_LOGOUT:
+      return {
+        isAuthenticated: false,
+      }
+
+    case ALL_USERS_LOGOUT:
+      return {
+        isAuthenticated: false,
+      }
 
     case LOGIN_SUCCESS:
       return {
