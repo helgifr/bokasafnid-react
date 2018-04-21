@@ -60,16 +60,17 @@ class Book extends Component {
   }
 
   render() {
-
     const { books, match, review} = this.props;
     const { loading } = this.state;
     const bookRev = [];
+    let bookIdinDb = 1;
     let allReadyReview = false;
     
 
     if(review){
       for(var i = 0; i < review.items.length; i++){
         if(review.items[i].book_id === books.id){
+        bookIdinDb = review.items[i].id;
         bookRev.push({
           rating: review.items[i].rating,
           revari: review.items[i].review,
@@ -107,9 +108,13 @@ class Book extends Component {
         {!allReadyReview && <div>
         <form className="reviewForm">
           <div className="field">
-            <p>Review</p>
-            <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
-            </textarea>
+            <div>
+              <p>Um bók:</p>
+            </div>
+            <div>
+              <textarea rows="4" cols="50" name="description" ref={this.reviewInput}>
+              </textarea>
+            </div>
           </div>
             <select ref={this.gradeInput}>
               <option value="1">1</option>
@@ -127,8 +132,8 @@ class Book extends Component {
             <div>
               <h1>Lesin bók</h1>
               <h3>einkunn: {rev.rating}</h3>
-              <h3>Review:  {rev.revari}</h3>
-              <DeleteButton className="delete-button" onClick={() => {this.deleteBook(books.id)}}> Eyða </DeleteButton>
+              <h3>Um bók:  {rev.revari}</h3>
+              <DeleteButton className="delete-button" onClick={() => {this.deleteBook(bookIdinDb)}}> Eyða </DeleteButton>
             </div>
           )
         }))}

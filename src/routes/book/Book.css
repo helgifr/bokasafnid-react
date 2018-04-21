@@ -1,7 +1,13 @@
 .book-info {
   margin-top: 20px;
+  margin-left: 40px;
 }
 
 .book-title {
   font-weight: bold;
+}
+
+.field{
+  display: flex;
+  flex-direction: column;
 }
