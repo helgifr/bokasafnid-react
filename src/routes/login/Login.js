@@ -53,7 +53,8 @@ class Login extends Component {
 
   render() {
     const { redirect } = this.state;
-    const { message, location, isFetching } = this.props;
+    const { message, location, isFetching, match } = this.props;
+    console.log(location.state);
 
     if (redirect) {
       try {
@@ -67,6 +68,9 @@ class Login extends Component {
       <div className="page">
         <Helmet title='Innskráning' />
         <h1 className="header__heading">Innskráning</h1>
+        {location.state &&
+          <p>Token er útrunninn. Vinsamlegast skráðu þig inn aftur</p>
+        }
         {isFetching &&
           <p>Skrái inn {this.usernameInput.current.value}...</p>
         }
